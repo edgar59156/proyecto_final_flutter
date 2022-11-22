@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProyectoFinalFlutter</string>
+    <string name="facebook_app_id">879812226381847</string>
+    <string name="facebook_client_token">d4204b03b90c090b903f3a71b295591b</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+</resources>
