@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/user_details.dart';
 
-class LoginController with ChangeNotifier {
+class LoginProvider with ChangeNotifier {
   // object
   var _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleSignInAccount;
@@ -51,7 +51,7 @@ class LoginController with ChangeNotifier {
     try {
       var githubProvider = GithubAuthProvider();
       githubProvider.addScope(
-          'https://mapasprogramoviles2022.firebaseapp.com/__/auth/handler');
+          'https://proyectofinalflutter-369400.firebaseapp.com/__/auth/handler');
       githubProvider.setCustomParameters({
         'allow_signup': 'true',
       });

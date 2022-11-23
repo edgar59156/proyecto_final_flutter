@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+class MyCoursesScreen extends StatefulWidget {
+  const MyCoursesScreen({Key? key}) : super(key: key);
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<MyCoursesScreen> createState() => _MyCoursesScreenState();
 }
 
 final TextEditingController searchController = TextEditingController();
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _MyCoursesScreenState extends State<MyCoursesScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -33,33 +33,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     child: SafeArea(
-                      
                       minimum: const EdgeInsets.all(16),
                       child: Column(
-                      
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Spacer(),
-                          Text("G Books",
-                              style: Theme.of(context).textTheme.headline1),
-                          const Spacer(),
-                      
-                          const Spacer(
-                            flex: 2,
+                          Text(
+                            "Mis Cursos",
+                            style: Theme.of(context).textTheme.headline1,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Most Popular',
-                                  style: TextStyle(fontSize: 32)),
-                            ],
-                          ),
-                          SizedBox(
-                            //color: Colors.yellow,
-                            height: height / 4.0,
-                          //  child: const Popular(),
-                          ),
-                         
                         ],
                       ),
                     ),
@@ -77,7 +59,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-            
           ],
         ),
       ),
