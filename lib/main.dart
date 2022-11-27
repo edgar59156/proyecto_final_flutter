@@ -47,8 +47,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PFinalApp extends StatelessWidget {
+class PFinalApp extends StatefulWidget {
   const PFinalApp({Key? key}) : super(key: key);
+
+  @override
+  State<PFinalApp> createState() => _PFinalAppState();
+}
+
+class _PFinalAppState extends State<PFinalApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PushNotificationService.messagesStream.listen((message) {
+      print('MyApp: $message');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
