@@ -12,6 +12,7 @@ import 'package:proyecto_final/screens/profile_screens/edit_image.dart';
 import 'package:proyecto_final/screens/select_theme.dart';
 import 'package:proyecto_final/screens/sign_up_screen.dart';
 import 'package:proyecto_final/screens/splash_screen.dart';
+import 'package:proyecto_final/services/push_notifications_services.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
 import 'screens/message_screen.dart';
@@ -20,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Preferences.init();
+  await PushNotificationService.initializeApp();
   runApp(const MyApp());
 }
 

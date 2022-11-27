@@ -64,6 +64,7 @@ dependencies:
   google_fonts: ^3.0.1
   file_picker: ^5.2.2
   github_sign_in: ^0.0.4
+  firebase_messaging: ^14.1.2
   flutter_webview_plugin:
     git: https://github.com/nuc134r/flutter_webview_plugin.git
 
