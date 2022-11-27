@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:184021432083:android:74bd02dd8ae46c7b428ce6",
+        "android_client_info": {
+          "package_name": "com.edgar59156.proyecto_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184021432083-knl9trlsh79u1ogh23kbl55a8mmkp8ih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edgar59156.proyecto_final",
+            "certificate_hash": "271d2d9e97279430a1a78935388ece00752e0eeb"
+          }
+        },
+        {
+          "client_id": "184021432083-jla25ccl5oqur0185pec3tgdnv1oi1f7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD2EO4CYnNeaBP8E7j1pBfGJwmj3YAz1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184021432083-jla25ccl5oqur0185pec3tgdnv1oi1f7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:184021432083:android:84d9ad878df9e1cc428ce6",
         "android_client_info": {
           "package_name": "com.example.proyecto_final"
