@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.proyecto_final">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.edgar59156.proyecto_final">
 	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="proyecto_final" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
 		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />

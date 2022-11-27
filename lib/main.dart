@@ -14,6 +14,8 @@ import 'package:proyecto_final/screens/sign_up_screen.dart';
 import 'package:proyecto_final/screens/splash_screen.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
+import 'screens/message_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -61,6 +63,7 @@ class PFinalApp extends StatelessWidget {
         '/theme': (BuildContext context) => SelectScreen(),
         '/onboarding': (BuildContext context) => OnboardingScreen(),
         '/signup': (BuildContext context) => SignUpScreen(),
+        '/message': (BuildContext context) => MessageScreen(),
       },
     );
   }
