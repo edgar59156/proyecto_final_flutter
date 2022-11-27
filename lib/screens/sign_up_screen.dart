@@ -7,6 +7,7 @@ import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
 
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:string_validator/string_validator.dart';
 
 import '../firebase/email_authentication.dart';
 
@@ -19,6 +20,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   EmailAuthentication? _emailAuth;
+  final nombreControler = TextEditingController();
+  final apellidoPaternoControler = TextEditingController();
+  final apellidoMaternoControler = TextEditingController();
 
   @override
   void initState() {
@@ -57,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(75),
                     child: Image.network(
-                        'https://webstockreview.net/images/banana-clipart-logo-9.png'),
+                        'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png'),
                   ),
                 ),
               ),
@@ -131,14 +135,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ))),
                   child: Row(children: [
                     Expanded(
-                        child: TextButton(
+                        child: /*TextButton(
                             onPressed: () {
                               // navigateSecondPage(editPage);
                             },
                             child: Text(
                               getValue,
                               style: TextStyle(fontSize: 16, height: 1.4),
-                            ))),
+                            )*/
+                            TextFormField(
+                      // Handles Form Validation for First Name
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your first name';
+                        } else if (!isAlpha(value)) {
+                          return 'Only Letters Please';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(labelText: 'Nombre'),
+                      controller: nombreControler,
+                    )),
                     Icon(
                       Icons.keyboard_arrow_right,
                       color: Colors.grey,
