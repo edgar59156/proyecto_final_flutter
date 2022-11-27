@@ -13,17 +13,20 @@ class PushNotificationService {
 
   static Future _backgroundHandler(RemoteMessage message) async {
     //print('background handler ${message.messageId}');
-    _messageStream.add(message.notification?.title ?? 'No title');
+    print(message.data);
+    _messageStream.add(message.data['product'] ?? 'No data');
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
     //print('background handler ${message.messageId}');
-    _messageStream.add(message.notification?.title ?? 'No title');
+    print(message.data);
+    _messageStream.add(message.data['product'] ?? 'No data');
   }
 
   static Future _onMessageOpenApp(RemoteMessage message) async {
     // print('background handler ${message.messageId}');
-    _messageStream.add(message.notification?.title ?? 'No title');
+    print(message.data);
+    _messageStream.add(message.data['product'] ?? 'No data');
   }
 
   static Future initializeApp() async {

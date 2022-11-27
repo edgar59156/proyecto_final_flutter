@@ -55,12 +55,19 @@ class PFinalApp extends StatefulWidget {
 }
 
 class _PFinalAppState extends State<PFinalApp> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     PushNotificationService.messagesStream.listen((message) {
       print('MyApp: $message');
+      navigatorKey.currentState?.pushNamed('/message', arguments: message);
+      final snackBar = SnackBar(content: Text(message));
+      messengerKey.currentState?.showSnackBar(snackBar);
     });
   }
 
@@ -70,6 +77,8 @@ class _PFinalAppState extends State<PFinalApp> {
       debugShowCheckedModeBanner: false,
       title: 'Cento Comunitario',
       home: const SplashScreen(),
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: messengerKey,
       routes: {
         '/home': (BuildContext context) => HomeScreen(),
         '/login': (BuildContext context) => LoginScreen(),
