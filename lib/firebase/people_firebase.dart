@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:proyecto_final/models/people_model.dart';
-import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
 class PeopleFirebase {
   FirebaseFirestore? _firebaseFirestore;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class MessageScreen extends StatelessWidget {
@@ -6,9 +8,10 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final  args = ModalRoute.of(context)?.settings.arguments ?? 'No data';
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('messageScreen'),
+        title: Text('Notification'),
       ),
       body: Center(child: Text('$args')),
     );

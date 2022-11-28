@@ -67,7 +67,7 @@ class _PFinalAppState extends State<PFinalApp> {
     PushNotificationService.messagesStream.listen((message) {
       print('MyApp: $message');
       navigatorKey.currentState?.pushNamed('/message', arguments: message);
-      final snackBar = SnackBar(content: Text(message));
+      final snackBar = SnackBar(content: Text(message.toString()));
       messengerKey.currentState?.showSnackBar(snackBar);
     });
   }

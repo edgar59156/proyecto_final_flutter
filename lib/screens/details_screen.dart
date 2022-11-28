@@ -9,10 +9,10 @@ import '../firebase/courses_firebase.dart';
 
 class DetailsScreen extends StatefulWidget {
   DetailsScreen(
-      {Key? key, required this.id, this.boxColor, required this.color})
+      {Key? key, required this.taller, this.boxColor, required this.color})
       : super(key: key);
   Color color;
-  var id;
+  var taller;
   final Color? boxColor;
 
   @override
@@ -36,7 +36,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
         body: SingleChildScrollView(
             child: StreamBuilder(
-      stream: _coursesFirebase!.getCourse('Taller de cocina'),
+      stream: _coursesFirebase!.getCourse(widget.taller),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Center(
@@ -67,7 +67,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         right: 0,
                         bottom: 0,
                         child: Container(
-                          height: height * 250,
+                          height: height * 100,
                           alignment: Alignment.center,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),

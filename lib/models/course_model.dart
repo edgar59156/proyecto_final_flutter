@@ -5,16 +5,19 @@ class CourseModel {
   String? hora_fin;
   String? descripcion;
   String? fotografia;
+  String? costo;
+  String? materiales;
 
-  CourseModel({
-    this.id_taller,
-    this.taller,
-    this.hora_fin,
-    this.hora_inicio,
-    this.descripcion,
-    this.fotografia,
-  });
-  
+  CourseModel(
+      {this.id_taller,
+      this.taller,
+      this.hora_fin,
+      this.hora_inicio,
+      this.descripcion,
+      this.fotografia,
+      this.costo,
+      this.materiales});
+
   Map<String, dynamic> toMap() {
     return {
       'id_taller': this.id_taller,
@@ -23,7 +26,8 @@ class CourseModel {
       'hora_fin': this.hora_fin,
       'descripcion': this.descripcion,
       'fotografia': this.fotografia,
-      
+      'costo': this.costo,
+      'materiales': this.materiales,
     };
   }
 }

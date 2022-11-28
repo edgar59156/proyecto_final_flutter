@@ -96,7 +96,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ImagePicker _picker = ImagePicker();
                                 final XFile? _image = await _picker.pickImage(
                                     source: ImageSource.gallery);
-
                                 if (_image == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -104,16 +103,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 }
                                 if (_image != null) {
                                   print('Uploading...');
-                                  String downloadUrl = await
-                                      StorageRepository().uploadImage(_image);
-                                  /*String downloadUrl = await StorageRepository()
-                                      .getDownloadUrl(_image.name);*/
+                                  String downloadUrl = await StorageRepository()
+                                      .uploadImage(_image);
+
                                   print('image url: ${downloadUrl}');
                                   _peopleFirebase!.updPeopleImg(
-                                      snapshot.data!.docs[0].id,
-                                     downloadUrl);
+                                      snapshot.data!.docs[0].id, downloadUrl);
                                   print(snapshot.data!.docs[0].id);
                                 }
+                              },
                                 /*Navigator.pushNamed(context, '/editImage',
                                     arguments: {
                                       'idUsuario': snapshot.data![0].idUsuario,
@@ -121,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     }).then((value) { 
                                   setState(() {});
                                 });*/
-                              },
+                              
                               elevation: 2.0,
                               fillColor: Color(0xFFF5F6F9),
                               child: Icon(

@@ -91,7 +91,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => DetailsScreen(
-                                          id: 1, color: Colors.blue!)));
+                                          taller: place.get('taller'),
+                                          color: Colors.blue!)));
                             },
                             /*trailing: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.25,
