@@ -8,19 +8,19 @@ class ProfileDAO {
   String? github;
   String? image;
   String? descripcion;
+  String? instructor;
 
-  ProfileDAO({
-    this.idUsuario,
-    this.nombre,
-    this.apellidoMaterno,
-    this.apellidoPaterno,
-    this.email,
-    this.telefono,
-    this.github,
-    this.image,
-    this.descripcion
-
-  });
+  ProfileDAO(
+      {this.idUsuario,
+      this.nombre,
+      this.apellidoMaterno,
+      this.apellidoPaterno,
+      this.email,
+      this.telefono,
+      this.github,
+      this.image,
+      this.descripcion,
+      this.instructor});
   factory ProfileDAO.fromJSON(Map<String, dynamic> mapUsuario) {
     return ProfileDAO(
       idUsuario: mapUsuario['idUsuario'],
@@ -32,6 +32,7 @@ class ProfileDAO {
       github: mapUsuario['github'],
       image: mapUsuario['image'],
       descripcion: mapUsuario['descripcion'],
+      instructor: mapUsuario['instructor'],
     );
   }
 }

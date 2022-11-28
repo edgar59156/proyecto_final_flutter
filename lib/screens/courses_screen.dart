@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:proyecto_final/screens/details_screen.dart';
 
 import '../firebase/courses_firebase.dart';
 
@@ -31,11 +32,11 @@ class _CoursesScreenState extends State<CoursesScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: height / 2,
+              height: height / 4,
               child: Stack(
                 children: [
                   Container(
-                    height: height / 3,
+                    //height: height / 3,
                     decoration: BoxDecoration(
                       color: Colors.lightBlue,
                       borderRadius: const BorderRadius.only(
@@ -65,7 +66,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
               ),
             ),
             SizedBox(
-              height: 400,
+              height: 600,
               child: StreamBuilder(
                   stream: _coursesFirebase!.getAllCourses(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -76,13 +77,23 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           var place = snapshot.data!.docs[index];
                           return ListTile(
                             leading: FadeInImage(
-                              image: NetworkImage(place.get('fotografia')),
+                              image: NetworkImage(
+                                place.get('fotografia'),
+                              ),
                               placeholder:
                                   NetworkImage(place.get('fotografia')),
                             ),
                             title: Text(place.get('taller')),
-                            subtitle: Text(place.get('descripcion')),
-                            trailing: SizedBox(
+                            subtitle:
+                                Text(place.get('descripcion'), maxLines: 3),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailsScreen(
+                                          id: 1, color: Colors.blue!)));
+                            },
+                            /*trailing: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.25,
                               child: Row(
                                 children: [
@@ -90,12 +101,12 @@ class _CoursesScreenState extends State<CoursesScreen> {
                                       onPressed: () {}, icon: Icon(Icons.edit)),
                                   IconButton(
                                       onPressed: () {
-                                        _coursesFirebase!.delCourse(place.id);
+                                       // _coursesFirebase!.delCourse(place.id);
                                       },
                                       icon: Icon(Icons.delete)),
                                 ],
                               ),
-                            ),
+                            ),*/
                           );
                         },
                       );
@@ -105,7 +116,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           child: Text('Error'),
                         );
                       } else {
-                        return const CircularProgressIndicator();
+                        return Center(child: CircularProgressIndicator());
                       }
                     }
                   }),

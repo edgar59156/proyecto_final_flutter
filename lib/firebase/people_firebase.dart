@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:proyecto_final/models/people_model.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
@@ -23,9 +24,14 @@ class PeopleFirebase {
     return _peopleCollection!.doc(idPeople).update(objPeople.toMap());
   }
 
+  Future<void> updPeopleImg(String id, String fotografia) {
+    
+    return _peopleCollection!.doc(id).update({'fotografia' : fotografia});
+  }
+
   Stream<QuerySnapshot> getPeople(String email) {
     //_peopleCollection!.where('email', isEqualTo: email);
- 
+
     return _peopleCollection!.where('email', isEqualTo: email).snapshots();
   }
 

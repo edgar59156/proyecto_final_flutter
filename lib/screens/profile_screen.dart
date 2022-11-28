@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_description.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
+import 'package:proyecto_final/storage/storage_repository.dart';
 
 import '../database/database_helper_profile.dart';
 import '../firebase/people_firebase.dart';
@@ -26,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _peopleFirebase = PeopleFirebase();
   }
+
   DatabaseHelperProfile? _database;
   PeopleFirebase? _peopleFirebase;
   @override
@@ -56,26 +59,27 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Color.fromRGBO(64, 105, 225, 1),
                             ),
                           ))),
-                  /*InkWell(
+                  InkWell(
                       onTap: () {
                         //navigateSecondPage(EditImagePage());
-                        /*Navigator.pushNamed(context, '/editImage', arguments: {
+                        /*  Navigator.pushNamed(context, '/editImage', arguments: {
                           'idUsuario': snapshot.data![0].idUsuario,
                           'image': snapshot.data![0].image
                         }).then((value) {
                           setState(() {});
-                        });*/
+                        })*/
                       },
                       child: Stack(children: [
-                       /* Hero(
+                        Hero(
                           tag: "profile-image",
                           child: CircleAvatar(
                             radius: 90,
-                            child: snapshot.data!.docs[0].exists
+                            child: snapshot.data!.docs[0].get('fotografia') !=
+                                    ''
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
-                                    child: Image.file(
-                                        File(snapshot.data!.docs[0].get('fotografia'))),
+                                    child: Image.network(snapshot.data!.docs[0]
+                                        .get('fotografia')),
                                   )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
@@ -83,17 +87,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                         'https://webstockreview.net/images/banana-clipart-logo-9.png'),
                                   ),
                           ),
-                        ),*/
+                        ),
                         Positioned(
                             bottom: 0,
                             right: -25,
                             child: RawMaterialButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                ImagePicker _picker = ImagePicker();
+                                final XFile? _image = await _picker.pickImage(
+                                    source: ImageSource.gallery);
+
+                                if (_image == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('No selected image')));
+                                }
+                                if (_image != null) {
+                                  print('Uploading...');
+                                  String downloadUrl = await
+                                      StorageRepository().uploadImage(_image);
+                                  /*String downloadUrl = await StorageRepository()
+                                      .getDownloadUrl(_image.name);*/
+                                  print('image url: ${downloadUrl}');
+                                  _peopleFirebase!.updPeopleImg(
+                                      snapshot.data!.docs[0].id,
+                                     downloadUrl);
+                                  print(snapshot.data!.docs[0].id);
+                                }
                                 /*Navigator.pushNamed(context, '/editImage',
                                     arguments: {
                                       'idUsuario': snapshot.data![0].idUsuario,
                                       'image': snapshot.data![0].image
-                                    }).then((value) {
+                                    }).then((value) { 
                                   setState(() {});
                                 });*/
                               },
@@ -106,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               //padding: EdgeInsets.all(15.0),
                               shape: CircleBorder(),
                             )),
-                      ])),*/
+                      ])),
                   buildUserInfoDisplay(
                       snapshot.data!.docs[0].get('fotografia') +
                           " " +
@@ -116,12 +141,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       'Name',
                       EditNameFormPage(),
                       snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Phone',
-                      EditPhoneFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Email',
-                      EditEmailFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Github',
-                      EditgithubFormPage(), snapshot),
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
+                      'Phone', EditPhoneFormPage(), snapshot),
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
+                      'Email', EditEmailFormPage(), snapshot),
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
+                      'Github', EditgithubFormPage(), snapshot),
                 ],
               );
             } else if (snapshot.hasError) {

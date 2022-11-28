@@ -22,9 +22,11 @@ class CoursesFirebase {
     return _coursesCollection!.doc(idCourse).update(objCourse.toMap());
   }
 
+  Stream<QuerySnapshot> getCourse(String taller) {
+    return _coursesCollection!.where('taller', isEqualTo: taller).snapshots();
+  }
+
   Stream<QuerySnapshot> getAllCourses() {
-    print('snapshots');
-    print(_coursesCollection!.snapshots());
     return _coursesCollection!.snapshots();
   }
 }
