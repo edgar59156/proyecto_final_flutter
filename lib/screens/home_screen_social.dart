@@ -1,27 +1,23 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:proyecto_final/models/arguments_model.dart';
 import 'package:proyecto_final/screens/courses_screen.dart';
 import 'package:proyecto_final/screens/my_courses_screen.dart';
 import 'package:proyecto_final/screens/profile_screen.dart';
+import 'package:proyecto_final/screens/profile_screen_social.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenSocial extends StatefulWidget {
+  const HomeScreenSocial({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-  
+  State<HomeScreenSocial> createState() => _HomeScreenSocialState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenSocialState extends State<HomeScreenSocial> {
   int _page = 0;
-  final screens = [CoursesScreen(), MyCoursesScreen(), ProfilePage()];
+  final screens = [CoursesScreen(), MyCoursesScreen(), ProfilePageSocial()];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,

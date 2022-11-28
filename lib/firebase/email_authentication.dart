@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:proyecto_final/firebase/people_firebase.dart';
+
+import '../models/people_model.dart';
 
 class EmailAuthentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -11,7 +14,11 @@ class EmailAuthentication {
 
       User user = UserCredential.user!;
       user.sendEmailVerification();
-      
+      PeopleFirebase? _peopleFirebase;
+      _peopleFirebase = PeopleFirebase();
+      PeopleModel objPeople =
+          PeopleModel(email: email, fotografia: '', id_persona: 1, persona: '');
+      _peopleFirebase.insPeople(objPeople);
       return true;
     } catch (e) {
       return false;

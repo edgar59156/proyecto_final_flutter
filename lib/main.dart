@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:proyecto_final/provider/login_provider.dart';
 import 'package:proyecto_final/provider/theme_provider.dart';
 import 'package:proyecto_final/screens/home_screen.dart';
+import 'package:proyecto_final/screens/home_screen_social.dart';
 import 'package:proyecto_final/screens/login_screen.dart';
 import 'package:proyecto_final/screens/onboarding_screen.dart';
 import 'package:proyecto_final/screens/profile_screen.dart';
@@ -81,6 +82,7 @@ class _PFinalAppState extends State<PFinalApp> {
       scaffoldMessengerKey: messengerKey,
       routes: {
         '/home': (BuildContext context) => HomeScreen(),
+        '/homeS': (BuildContext context) => HomeScreenSocial(),
         '/login': (BuildContext context) => LoginScreen(),
         '/profile': (BuildContext context) => ProfilePage(),
         '/profileS': (BuildContext context) => ProfilePageSocial(),

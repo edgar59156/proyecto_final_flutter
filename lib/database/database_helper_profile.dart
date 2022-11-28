@@ -29,10 +29,10 @@ class DatabaseHelperProfile {
 
   _createTable(Database db, int version) async {
     String query =
-        "CREATE TABLE tblUsuario(idUsuario INTEGER PRIMARY KEY, nombre varchar(30),apellidoMaterno varchar(30),apellidoPaterno varchar(30),email varchar(30), telefono varchar(13),github varchar(30),image TEXT)";
+        "CREATE TABLE tblUsuario(idUsuario INTEGER PRIMARY KEY, email varchar(30),image TEXT)";
     db.execute(query);
 
-    String queryNewUser = "INSERT INTO tblUsuario(nombre,apellidoMaterno,apellidoPaterno,email,telefono,github,image) VALUES ('Juan','Perez','Lopez','edgar59156@gmail.com','4612925662','edgar59156','')";
+    String queryNewUser = "INSERT INTO tblUsuario(email,image) VALUES ('correo','')";
     db.execute(queryNewUser);
   }
 

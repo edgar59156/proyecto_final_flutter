@@ -1,29 +1,27 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:proyecto_final/screens/profile_screens/edit_description.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
+
 import '../database/database_helper_profile.dart';
 import '../models/profile_model.dart';
-import '../provider/login_provider.dart';
 
 // This class handles the Page to dispaly the user's info on the "Edit Profile" Screen
-class ProfilePageSocial extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfilePageSocialState createState() => _ProfilePageSocialState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageSocialState extends State<ProfilePageSocial> {
+class _ProfilePageState extends State<ProfilePage> {
   DatabaseHelperProfile? _database;
   @override
   Widget build(BuildContext context) {
-    LoginProvider snapshotS;
-    // _database = DatabaseHelperProfile();
-    snapshotS = ModalRoute.of(context)?.settings.arguments as LoginProvider;
     _database = DatabaseHelperProfile();
+
     return Scaffold(
       body: FutureBuilder(
           future: _database!.getAllUsuarios(),
@@ -63,11 +61,11 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                           tag: "profile-image",
                           child: CircleAvatar(
                             radius: 90,
-                            child: snapshotS.userDetails!.photoURL!.isNotEmpty
+                            child: snapshot.data![0].image!.isNotEmpty
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
-                                    child: Image.network(
-                                        '${snapshotS.userDetails!.photoURL!}'),
+                                    child: Image.file(
+                                        File(snapshot.data![0].image!)),
                                   )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
@@ -76,24 +74,44 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                                   ),
                           ),
                         ),
+                        Positioned(
+                            bottom: 0,
+                            right: -25,
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/editImage',
+                                    arguments: {
+                                      'idUsuario': snapshot.data![0].idUsuario,
+                                      'image': snapshot.data![0].image
+                                    }).then((value) {
+                                  setState(() {});
+                                });
+                              },
+                              elevation: 2.0,
+                              fillColor: Color(0xFFF5F6F9),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                              //padding: EdgeInsets.all(15.0),
+                              shape: CircleBorder(),
+                            )),
                       ])),
-                  buildUserInfoDisplay(snapshotS.userDetails!.displayName!,
-                      'Name', EditNameFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshotS.userDetails!.email!, 'Email',
+                  buildUserInfoDisplay(
+                      snapshot.data![0].nombre! +
+                          " " +
+                          snapshot.data![0].apellidoPaterno! +
+                          " " +
+                          snapshot.data![0].apellidoMaterno!,
+                      'Name',
+                      EditNameFormPage(),
+                      snapshot),
+                  buildUserInfoDisplay(snapshot.data![0].telefono!, 'Phone',
+                      EditPhoneFormPage(), snapshot),
+                  buildUserInfoDisplay(snapshot.data![0].email!, 'Email',
                       EditEmailFormPage(), snapshot),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: SocialLoginButton(
-                      buttonType: SocialLoginButtonType.generalLogin,
-                      text: 'Cerrar sesion',
-                      onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/login', (Route<dynamic> route) => false);
-                        Provider.of<LoginProvider>(context, listen: false)
-                            .logout();
-                      },
-                    ),
-                  ),
+                  buildUserInfoDisplay(snapshot.data![0].github!, 'Github',
+                      EditgithubFormPage(), snapshot),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -137,7 +155,7 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                     Expanded(
                         child: TextButton(
                             onPressed: () {
-                              //navigateSecondPage(editPage);
+                              navigateSecondPage(editPage);
                             },
                             child: Text(
                               getValue,
@@ -151,6 +169,56 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                   ]))
             ],
           ));
+/*
+  // Widget builds the About Me Section
+  Widget buildAbout(User user) => Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Tell Us About Yourself',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 1),
+          Container(
+              width: 350,
+              height: 200,
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                color: Colors.grey,
+                width: 1,
+              ))),
+              child: Row(children: [
+                Expanded(
+                    child: TextButton(
+                        onPressed: () {
+                          navigateSecondPage(EditDescriptionFormPage());
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  user.aboutMeDescription,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    height: 1.4,
+                                  ),
+                                ))))),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                  color: Colors.grey,
+                  size: 40.0,
+                )
+              ]))
+        ],
+      ));*/
 
   // Refrshes the Page after updating user info.
   FutureOr onGoBack(dynamic value) {

@@ -1,11 +1,14 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_final/models/people_model.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import '../database/database_helper_profile.dart';
 import '../firebase/email_authentication.dart';
+import '../firebase/people_firebase.dart';
 import '../provider/login_provider.dart';
 import '../shared_preferences/preferencias.dart';
 
@@ -17,9 +20,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  PeopleFirebase? _peopleFirebase;
   @override
   void initState() {
     super.initState();
+    //_database = DatabaseHelperProfile();
+    _peopleFirebase = PeopleFirebase();
   }
 
   TextEditingController txtConUser = TextEditingController();
@@ -27,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final EmailAuthentication _emailAuth = EmailAuthentication();
-
+  DatabaseHelperProfile? _database;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 20),
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-
             gradient: LinearGradient(
               colors: [Colors.purple, Colors.blueAccent],
               begin: Alignment.bottomLeft,
@@ -112,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             text: 'Login',
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () {
-              Navigator.pushNamed(context, '/home', arguments: model);
+              Navigator.pushNamed(context, '/homeS', arguments: model);
             },
           ),
 
@@ -200,24 +205,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: Colors.blue,
                   text: 'Iniciar Sesion',
                   onPressed: () async {
-                    /*var ban = await _emailAuth.signInWithEmailAndPassword(
-                            email: txtConUser.text, password: txtConPwd.text);
-                        if (ban == true) {
-                          if (_auth.currentUser!.emailVerified)
-                            Navigator.pushNamed(
-                              context,
-                              '/dash',
-                            );
-                          else
-                            print('Usuario no validado');
-                        } else {
-                          print('credenciales invalidas');
-                        }*/
-
-                    Navigator.pushNamed(
-                      context,
-                      '/dash',
-                    );
+                    var ban = await _emailAuth.signInWithEmailAndPassword(
+                        email: txtConUser.text, password: txtConPwd.text);
+                    if (ban == true) {
+                      if (_auth.currentUser!.emailVerified) {
+                        //updateUserValue(txtConUser.text);
+                        
+                        print(txtConUser.text);
+                        Preferences.email = txtConUser.text;
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                        );
+                      } else {
+                        final snackBar = SnackBar(
+                            content:
+                                Text('Verificar correo para iniciar sesión'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        print('Usuario no validado');
+                      }
+                    } else {
+                      final snackBar =
+                          SnackBar(content: Text('Credenciales invalidas'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      print('credenciales invalidas');
+                    }
                   },
                 ),
               ),
@@ -280,6 +292,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  void updateUserValue(String email) {
+    print(email);
+    _database!.actualizar({'idUsuario': 1, 'email': email}, 'tblUsuario').then(
+      (value) {
+        final snackbar = SnackBar(
+            content: Text('Correo del usuario insertado correctamente'));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      },
     );
   }
 }

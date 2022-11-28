@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
@@ -20,9 +21,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   EmailAuthentication? _emailAuth;
-  final nombreControler = TextEditingController();
-  final apellidoPaternoControler = TextEditingController();
-  final apellidoMaternoControler = TextEditingController();
+  final correo = TextEditingController();
+  final contrasena = TextEditingController();
+  final confirmContra = TextEditingController();
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Padding(
                 padding: EdgeInsets.only(bottom: 20),
                 child: Text(
-                  'Editar Perfil',
+                  'Crear Perfil',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
@@ -60,47 +61,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   radius: 90,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(75),
-                    child: Image.network(
-                        'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png'),
+                    child: Image.asset('assets/account.png'),
                   ),
                 ),
               ),
-              Positioned(
-                  bottom: 0,
-                  right: -25,
-                  child: RawMaterialButton(
-                    onPressed: () {},
-                    elevation: 2.0,
-                    fillColor: Color(0xFFF5F6F9),
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.blue,
-                    ),
-                    //padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  )),
             ])),
-        buildUserInfoDisplay('Juan Perez', 'Name', EditNameFormPage()),
-        buildUserInfoDisplay('461111111', 'Phone', EditPhoneFormPage()),
         buildUserInfoDisplay('example@gmail.com', 'Email', EditEmailFormPage()),
-        buildUserInfoDisplay('@Github', 'Github', EditgithubFormPage()),
-        SocialLoginButton(
-          buttonType: SocialLoginButtonType.generalLogin,
-          text: 'Sing Up',
-          onPressed: () {
-            /* _emailAuth!
-                .createUserWithEmailAndPassword(
-                    email: txtMail.text, password: password)
-                .then((value) {
-              Navigator.pop(context);
-            });
+        SizedBox(
+          height: 15,
+        ),
+        buildUserInfoDisplayContrasena(
+            '@Github', 'Contraseña', EditgithubFormPage()),
+        SizedBox(
+          height: 15,
+        ),
+        buildUserInfoDisplayConfirm(
+            '@Github', 'Confirmar contraseña', EditgithubFormPage()),
+        SizedBox(
+          height: 30,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 2,
+          child: SocialLoginButton(
+            buttonType: SocialLoginButtonType.generalLogin,
+            text: 'Sing Up',
+            onPressed: () {
+              if (EmailValidator.validate(correo.text) &&
+                  contrasena.text == confirmContra.text) {
+                _emailAuth!
+                    .createUserWithEmailAndPassword(
+                        email: correo.text, password: contrasena.text)
+                    .then((value) {
+                  Navigator.pop(context);
+                  final snackBar = SnackBar(
+                      content:
+                          Text('Cuenta creada exitosamente, verificar cuenta'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                });
+              } else {
+                final snackBar =
+                    SnackBar(content: Text('Verificar correo o contraseña'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              /* _emailAuth!
+                  .createUserWithEmailAndPassword(
+                      email: txtMail.text, password: password)
+                  .then((value) {
+                Navigator.pop(context);
+              });
 */
-            /*
-            Navigator.pushNamed(
-              context,
-              '/signup',
-            );*/
-          },
+              /*
+              Navigator.pushNamed(
+                context,
+                '/signup',
+              );*/
+            },
+          ),
         ),
       ],
     ));
@@ -135,32 +151,103 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ))),
                   child: Row(children: [
                     Expanded(
-                        child: /*TextButton(
-                            onPressed: () {
-                              // navigateSecondPage(editPage);
-                            },
-                            child: Text(
-                              getValue,
-                              style: TextStyle(fontSize: 16, height: 1.4),
-                            )*/
-                            TextFormField(
+                        child: TextFormField(
                       // Handles Form Validation for First Name
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your first name';
-                        } else if (!isAlpha(value)) {
-                          return 'Only Letters Please';
+                          return 'Por favor ingresa un correo';
                         }
                         return null;
                       },
-                      decoration: InputDecoration(labelText: 'Nombre'),
-                      controller: nombreControler,
+
+                      controller: correo,
                     )),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey,
-                      size: 40.0,
-                    )
+                  ]))
+            ],
+          ));
+  Widget buildUserInfoDisplayContrasena(
+          String getValue, String title, Widget editPage) =>
+      Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 1,
+              ),
+              Container(
+                  width: 350,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ))),
+                  child: Row(children: [
+                    Expanded(
+                        child: TextFormField(
+                      // Handles Form Validation for First Name
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Coloca un texto';
+                        }
+                        return null;
+                      },
+
+                      controller: contrasena,
+                    )),
+                  ]))
+            ],
+          ));
+  Widget buildUserInfoDisplayConfirm(
+          String getValue, String title, Widget editPage) =>
+      Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 1,
+              ),
+              Container(
+                  width: 350,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ))),
+                  child: Row(children: [
+                    Expanded(
+                        child: TextFormField(
+                      // Handles Form Validation for First Name
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Coloca un texto';
+                        }
+                        return null;
+                      },
+
+                      controller: confirmContra,
+                    )),
                   ]))
             ],
           ));

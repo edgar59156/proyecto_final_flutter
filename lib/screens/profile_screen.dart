@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_description.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
+import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
 import '../database/database_helper_profile.dart';
+import '../firebase/people_firebase.dart';
 import '../models/profile_model.dart';
 
 // This class handles the Page to dispaly the user's info on the "Edit Profile" Screen
@@ -17,15 +20,22 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _peopleFirebase = PeopleFirebase();
+  }
   DatabaseHelperProfile? _database;
+  PeopleFirebase? _peopleFirebase;
   @override
   Widget build(BuildContext context) {
     _database = DatabaseHelperProfile();
 
     return Scaffold(
-      body: FutureBuilder(
-          future: _database!.getAllUsuarios(),
-          builder: (context, AsyncSnapshot<List<ProfileDAO>> snapshot) {
+      body: StreamBuilder(
+          stream: _peopleFirebase!.getPeople(Preferences.email),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             child:
             if (snapshot.hasData) {
               return Column(
@@ -46,26 +56,26 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Color.fromRGBO(64, 105, 225, 1),
                             ),
                           ))),
-                  InkWell(
+                  /*InkWell(
                       onTap: () {
                         //navigateSecondPage(EditImagePage());
-                        Navigator.pushNamed(context, '/editImage', arguments: {
+                        /*Navigator.pushNamed(context, '/editImage', arguments: {
                           'idUsuario': snapshot.data![0].idUsuario,
                           'image': snapshot.data![0].image
                         }).then((value) {
                           setState(() {});
-                        });
+                        });*/
                       },
                       child: Stack(children: [
-                        Hero(
+                       /* Hero(
                           tag: "profile-image",
                           child: CircleAvatar(
                             radius: 90,
-                            child: snapshot.data![0].image!.isNotEmpty
+                            child: snapshot.data!.docs[0].exists
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
                                     child: Image.file(
-                                        File(snapshot.data![0].image!)),
+                                        File(snapshot.data!.docs[0].get('fotografia'))),
                                   )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(75),
@@ -73,19 +83,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                         'https://webstockreview.net/images/banana-clipart-logo-9.png'),
                                   ),
                           ),
-                        ),
+                        ),*/
                         Positioned(
                             bottom: 0,
                             right: -25,
                             child: RawMaterialButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/editImage',
+                                /*Navigator.pushNamed(context, '/editImage',
                                     arguments: {
                                       'idUsuario': snapshot.data![0].idUsuario,
                                       'image': snapshot.data![0].image
                                     }).then((value) {
                                   setState(() {});
-                                });
+                                });*/
                               },
                               elevation: 2.0,
                               fillColor: Color(0xFFF5F6F9),
@@ -96,21 +106,21 @@ class _ProfilePageState extends State<ProfilePage> {
                               //padding: EdgeInsets.all(15.0),
                               shape: CircleBorder(),
                             )),
-                      ])),
+                      ])),*/
                   buildUserInfoDisplay(
-                      snapshot.data![0].nombre! +
+                      snapshot.data!.docs[0].get('fotografia') +
                           " " +
-                          snapshot.data![0].apellidoPaterno! +
+                          snapshot.data!.docs[0].get('fotografia') +
                           " " +
-                          snapshot.data![0].apellidoMaterno!,
+                          snapshot.data!.docs[0].get('fotografia'),
                       'Name',
                       EditNameFormPage(),
                       snapshot),
-                  buildUserInfoDisplay(snapshot.data![0].telefono!, 'Phone',
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Phone',
                       EditPhoneFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data![0].email!, 'Email',
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Email',
                       EditEmailFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data![0].github!, 'Github',
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'), 'Github',
                       EditgithubFormPage(), snapshot),
                 ],
               );
