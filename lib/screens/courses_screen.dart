@@ -74,25 +74,25 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
-                          var place = snapshot.data!.docs[index];
+                          var course = snapshot.data!.docs[index];
                           return ListTile(
                             leading: FadeInImage(
                               image: NetworkImage(
-                                place.get('fotografia'),
+                                course.get('fotografia'),
                               ),
-                              placeholder:
-                                  NetworkImage(place.get('fotografia')),
+                              placeholder: NetworkImage(
+                                  'https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif'),
                             ),
-                            title: Text(place.get('taller')),
+                            title: Text(course.get('taller')),
                             subtitle:
-                                Text(place.get('descripcion'), maxLines: 3),
+                                Text(course.get('descripcion'), maxLines: 3),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => DetailsScreen(
-                                          taller: place.get('taller'),
-                                          color: Colors.blue!)));
+                                          taller: course.get('taller'),
+                                          color: Colors.blue)));
                             },
                             /*trailing: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.25,

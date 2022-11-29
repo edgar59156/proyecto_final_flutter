@@ -1,4 +1,4 @@
-class CourseModel {
+class PeopleCourseModel {
   String? id_taller;
   String? taller;
   String? hora_inicio;
@@ -7,8 +7,9 @@ class CourseModel {
   String? fotografia;
   String? costo;
   String? materiales;
+  String? email;
 
-  CourseModel(
+  PeopleCourseModel(
       {this.id_taller,
       this.taller,
       this.hora_fin,
@@ -16,7 +17,8 @@ class CourseModel {
       this.descripcion,
       this.fotografia,
       this.costo,
-      this.materiales});
+      this.materiales,
+      this.email});
 
   Map<String, dynamic> toMap() {
     return {
@@ -28,6 +30,7 @@ class CourseModel {
       'fotografia': this.fotografia,
       'costo': this.costo,
       'materiales': this.materiales,
+      'email': this.email,
     };
   }
 }

@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:proyecto_final/firebase/people_courses_firebase.dart';
+import 'package:proyecto_final/screens/details_screen.dart';
+import 'package:proyecto_final/shared_preferences/preferencias.dart';
+
+import '../firebase/courses_firebase.dart';
 
 class MyCoursesScreen extends StatefulWidget {
   const MyCoursesScreen({Key? key}) : super(key: key);
@@ -10,6 +16,14 @@ class MyCoursesScreen extends StatefulWidget {
 final TextEditingController searchController = TextEditingController();
 
 class _MyCoursesScreenState extends State<MyCoursesScreen> {
+  PeopleCoursesFirebase? _peopleCoursesFirebase;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _peopleCoursesFirebase = PeopleCoursesFirebase();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -20,11 +34,11 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: height / 2,
+              height: height / 3,
               child: Stack(
                 children: [
                   Container(
-                    height: height / 2,
+                    //height: height / 3,
                     decoration: BoxDecoration(
                       color: Colors.lightBlue,
                       borderRadius: const BorderRadius.only(
@@ -38,26 +52,78 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Spacer(),
-                          Text(
-                            "Mis Cursos",
-                            style: Theme.of(context).textTheme.headline1,
+                          Text("Mis Cursos",
+                              style: Theme.of(context).textTheme.headline1),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('', style: TextStyle(fontSize: 10)),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: height / 5.3,
-                      //height: constraints.maxHeight * 0.38,
-                      margin: const EdgeInsets.only(left: 16),
-                    ),
-                  ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 600,
+              child: StreamBuilder(
+                  stream:
+                      _peopleCoursesFirebase!.getAllCourses(Preferences.email),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var course = snapshot.data!.docs[index];
+                          return ListTile(
+                            leading: FadeInImage(
+                              image: NetworkImage(
+                                course.get('fotografia'),
+                              ),
+                              placeholder: NetworkImage(
+                                  'https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif'),
+                            ),
+                            title: Text(course.get('taller')),
+                            subtitle:
+                                Text(course.get('descripcion'), maxLines: 3),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailsScreen(
+                                          taller: course.get('taller'),
+                                          color: Colors.blue)));
+                            },
+                            /*trailing: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {}, icon: Icon(Icons.edit)),
+                                  IconButton(
+                                      onPressed: () {
+                                       // _peopleCoursesFirebase!.delCourse(place.id);
+                                      },
+                                      icon: Icon(Icons.delete)),
+                                ],
+                              ),
+                            ),*/
+                          );
+                        },
+                      );
+                    } else {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Error'),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }
+                  }),
             ),
           ],
         ),
