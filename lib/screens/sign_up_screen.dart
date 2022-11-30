@@ -100,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 });
               } else {
                 final snackBar =
-                    SnackBar(content: Text('Verificar correo o contraseña'));
+                    SnackBar(content: Text('Verificar correo o que la contraseña coincida'));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
               /* _emailAuth!

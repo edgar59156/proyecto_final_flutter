@@ -14,9 +14,9 @@ import 'package:proyecto_final/screens/onboarding_screen.dart';
 import 'package:proyecto_final/screens/profile_screen.dart';
 import 'package:proyecto_final/screens/profile_screen_social.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_image.dart';
-import 'package:proyecto_final/screens/select_theme.dart';
 import 'package:proyecto_final/screens/sign_up_screen.dart';
 import 'package:proyecto_final/screens/splash_screen.dart';
+import 'package:proyecto_final/screens/theme_screen.dart';
 import 'package:proyecto_final/services/push_notifications_services.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
@@ -90,10 +90,12 @@ class _PFinalAppState extends State<PFinalApp> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider tema = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cento Comunitario',
       home: const SplashScreen(),
+      theme: tema.getthemeData(),
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
@@ -103,7 +105,7 @@ class _PFinalAppState extends State<PFinalApp> {
         '/profile': (BuildContext context) => ProfilePage(),
         '/profileS': (BuildContext context) => ProfilePageSocial(),
         '/editImage': (BuildContext context) => EditImagePage(),
-        '/theme': (BuildContext context) => SelectScreen(),
+        '/theme': (BuildContext context) => ThemeScreen(),
         '/onboarding': (BuildContext context) => OnboardingScreen(),
         '/signup': (BuildContext context) => SignUpScreen(),
         '/message': (BuildContext context) => MessageScreen(),

@@ -81,6 +81,33 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                       'Name', EditNameFormPage(), snapshot),
                   buildUserInfoDisplay(snapshotS.userDetails!.email!, 'Email',
                       EditEmailFormPage(), snapshot),
+                  Center(
+                    child: Container(
+                        width: 350,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ))),
+                        child: Row(children: [
+                          Expanded(
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/theme');
+                                  },
+                                  child: Text(
+                                    'Theme',
+                                    style: TextStyle(fontSize: 16, height: 1.4),
+                                  ))),
+                          Icon(
+                            Icons.style,
+                            color: Colors.grey,
+                            size: 40.0,
+                          )
+                        ])),
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: SocialLoginButton(

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_final/screens/home_screen.dart';
 import 'package:proyecto_final/screens/login_screen.dart';
+import 'package:proyecto_final/screens/onboarding_screen.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 
-
+import '../shared_preferences/preferencias.dart';
 
 class SplashScreen extends StatelessWidget {
-    const SplashScreen({Key? key}):super(key: key);
-
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(
-      navigateRoute: LoginScreen(),
+      navigateRoute:
+          Preferences.isLogged == false ? OnboardingScreen() : LoginScreen(),
       duration: 3000,
       imageSize: 130,
       imageSrc: "assets/logo.png",
@@ -20,7 +22,6 @@ class SplashScreen extends StatelessWidget {
       textStyle: TextStyle(
         fontSize: 30.0,
       ),
-      
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
 import '../models/user_details.dart';
 
@@ -21,7 +22,8 @@ class LoginProvider with ChangeNotifier {
       email: this.googleSignInAccount!.email,
       photoURL: this.googleSignInAccount!.photoUrl,
     );
-
+    Preferences.email = this.googleSignInAccount!.email;
+    print(Preferences.email);
     // call
     notifyListeners();
   }
@@ -43,6 +45,8 @@ class LoginProvider with ChangeNotifier {
         email: requestData["email"],
         photoURL: requestData["picture"]["data"]["url"] ?? " ",
       );
+      Preferences.email = requestData["email"];
+      print(Preferences.email);
       notifyListeners();
     }
   }
@@ -63,7 +67,10 @@ class LoginProvider with ChangeNotifier {
           email: value.user!.email,
           photoURL: value.user!.photoURL ?? " ",
         );
+        Preferences.email = userDetails!.email!;
+        print(Preferences.email);
       });
+
       notifyListeners();
       return true;
     } catch (e) {

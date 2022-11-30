@@ -4,6 +4,7 @@ import 'package:proyecto_final/firebase/people_courses_firebase.dart';
 import 'package:proyecto_final/models/course_model.dart';
 import 'package:proyecto_final/models/notifications_model.dart';
 import 'package:proyecto_final/screens/details_screen.dart';
+import 'package:proyecto_final/screens/details_screen_ins.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
 import '../firebase/courses_firebase.dart';
@@ -131,7 +132,7 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => DetailsScreen(
+                                            builder: (context) => DetailsScreenIns(
                                                 taller: course.get('taller'),
                                                 color: Colors.blue)));
                                   },

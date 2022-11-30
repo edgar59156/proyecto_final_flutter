@@ -117,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             text: 'Login',
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () {
+              
               Navigator.pushNamed(context, '/homeS', arguments: model);
             },
           ),

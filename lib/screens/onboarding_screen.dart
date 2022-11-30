@@ -50,327 +50,472 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               controller: controller,
               onPageChanged: (index) {
                 setState(() {
-                  isLastPage = index == 3;
+                  isLastPage = index == 7;
                 });
               },
               children: [
                 Container(
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/bananaAppfondo.jpg'),
-                      fit: BoxFit.cover,
-                      repeat: ImageRepeat.noRepeat,
-                    )),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'Bienvenido to BananaApp',
+                          'Centro Comunitario App',
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 25),
                         Image.asset(
-                          'assets/bananapprbg.png',
+                          'assets/logo.png',
                           fit: BoxFit.cover,
                           width: 150,
                         ),
-                        const SizedBox(height: 14),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: const Text(
-                            'Ipsum nostrud veniam ullamco est cupidatat ullamco ut est. Quis id dolor ea quis culpa magna in anim est commodo nulla esse. Anim minim laborum exercitation dolore aliqua pariatur commodo et Lorem. Quis voluptate irure elit cupidatat Lorem laborum incididunt do velit id. Voluptate duis id est aliqua duis laboris incididunt occaecat amet anim aliquip do. Pariatur voluptate reprehenderit exercitation aute nisi enim non.',
+                        const SizedBox(height: 40),
+                        Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: const Text(
+                              'La aplicacion del Centro Comunitario muestra los cursos y talleres que se imparten al publico en general, además te da la posibilidad de  crear una cuenta e inscribirte ',
+                              style: TextStyle(fontSize: 25),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 40),
                       ],
                     )),
-                
-                
                 Container(
                     //color: Theme.of(context).cardColor,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/bananaAppfondo.jpg'),
-                      fit: BoxFit.cover,
-                      repeat: ImageRepeat.noRepeat,
-                    )),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'Agrega tareas',
+                          'Crea tu cuenta',
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 14),
                         Image.asset(
-                          'assets/bananaTask.png',
+                          'assets/crear.png',
                           fit: BoxFit.cover,
                           width: 250,
                         ),
                         const SizedBox(height: 14),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child:
-                              const Text('Crea, modifica y elimina tus tareas'),
+                          child: const Text(
+                              'Crea tu cuenta o inicia sesión con alguna red social',
+                              style: TextStyle(fontSize: 30)),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 10),
                       ],
                     )),
                 Container(
                     //color: Theme.of(context).cardColor,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/bananaAppfondo.jpg'),
-                      fit: BoxFit.cover,
-                      repeat: ImageRepeat.noRepeat,
-                    )),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'Your BanAccount!',
+                          'Inicia Sesión',
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 14),
                         Image.asset(
-                          'assets/banaccount2.png',
+                          'assets/login.png',
                           fit: BoxFit.cover,
-                          width: 210,
+                          width: 250,
+                        ),
+                        const SizedBox(height: 14),
+                        Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: const Text(
+                                'Escoge un método de auntenticacion',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    )),
+                Container(
+                    //color: Theme.of(context).cardColor,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Visita nuestros cursos',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 14),
                         Image.asset(
-                          'assets/profileIcon.png',
+                          'assets/cursos.png',
                           fit: BoxFit.cover,
-                          width: 120,
+                          width: 250,
                         ),
                         const SizedBox(height: 14),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: const Text('Add your basic info'),
+                          child: const Text(
+                              'Navega entre los cursos que ofrecemos',
+                              style: TextStyle(fontSize: 20)),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 10),
+                      ],
+                    )),
+                Container(
+                    //color: Theme.of(context).cardColor,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Observa los detalles del curso',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 14),
+                        Image.asset(
+                          'assets/inscribete.png',
+                          fit: BoxFit.cover,
+                          width: 250,
+                        ),
+                        const SizedBox(height: 14),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: const Text(
+                              'Observa el costo, el instructor, horarios, etc.',
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    )),
+                Container(
+                    //color: Theme.of(context).cardColor,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Inscribete!',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 14),
+                        Image.asset(
+                          'assets/miscursos.png',
+                          fit: BoxFit.cover,
+                          width: 250,
+                        ),
+                        const SizedBox(height: 14),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: const Text(
+                              'Observa los cursos a los cuales estás inscrito',
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                        const SizedBox(height: 1),
+                      ],
+                    )),
+                Container(
+                    //color: Theme.of(context).cardColor,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blueAccent],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.4, 0.7],
+                        tileMode: TileMode.repeated,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Recibe notificaciones ',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 14),
+                        Image.asset(
+                          'assets/notificaciones.png',
+                          fit: BoxFit.cover,
+                          width: 250,
+                        ),
+                        const SizedBox(height: 14),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: const Text(
+                              'Mantente al tanto de la clase recibiendo notificaciones de tu instructor',
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                        const SizedBox(height: 10),
                       ],
                     )),
                 Container(
                   //color: Theme.of(context).cardColor,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/themeColor.jpg'),
-                    fit: BoxFit.cover,
-                    repeat: ImageRepeat.noRepeat,
-                  )),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.purple, Colors.blueAccent],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      stops: [0.4, 0.7],
+                      tileMode: TileMode.repeated,
+                    ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                const Text(
-                  'Select theme',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 14),
-                Image.asset(
-                  'assets/themeIcon.png',
-                  fit: BoxFit.cover,
-                  width: 150,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 14),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Tema de dia',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    FlutterSwitch(
-                      activeColor: Colors.green,
-                      width: 125.0,
-                      height: 55.0,
-                      valueFontSize: 25.0,
-                      toggleSize: 45.0,
-                      value: statusB1,
-                      borderRadius: 30.0,
-                      padding: 8.0,
-                      showOnOff: true,
-                      activeIcon: Icon(
-                        Icons.wb_sunny,
-                        color: Colors.yellow,
+                      const Text(
+                        'Personaliza el tema',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
-                      inactiveIcon: Icon(
-                        Icons.cancel,
-                        color: Colors.red,
+                      const SizedBox(height: 14),
+                      Image.asset(
+                        'assets/themeIcon.png',
+                        fit: BoxFit.cover,
+                        width: 150,
+                        color: Colors.white,
                       ),
-                      onToggle: (val) {
-                        setState(() {
-                          statusB1 = val;
-                          statusB2 = false;
-                          statusB3 = false;
-                          if (statusB1 == true) {
-                            Preferences.themeUsed = 0;
-                            tema.setthemeData(temaDia());
-                          }
-                          print(Preferences.themeUsed);
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text(
-                      'Tema calido',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    FlutterSwitch(
-                      activeColor: Colors.green,
-                      width: 125.0,
-                      height: 55.0,
-                      valueFontSize: 25.0,
-                      toggleSize: 45.0,
-                      value: statusB2,
-                      borderRadius: 30.0,
-                      padding: 8.0,
-                      showOnOff: true,
-                      activeIcon: Icon(
-                        Icons.wb_sunny_outlined,
-                        color: Colors.yellow,
+                      const SizedBox(height: 14),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Tema de dia',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          FlutterSwitch(
+                            activeColor: Colors.green,
+                            width: 125.0,
+                            height: 55.0,
+                            valueFontSize: 25.0,
+                            toggleSize: 45.0,
+                            value: statusB1,
+                            borderRadius: 30.0,
+                            padding: 8.0,
+                            showOnOff: true,
+                            activeIcon: Icon(
+                              Icons.wb_sunny,
+                              color: Colors.yellow,
+                            ),
+                            inactiveIcon: Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                statusB1 = val;
+                                statusB2 = false;
+                                statusB3 = false;
+                                if (statusB1 == true) {
+                                  Preferences.themeUsed = 0;
+                                  tema.setthemeData(temaDia());
+                                }
+                                print(Preferences.themeUsed);
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            'Tema calido',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          FlutterSwitch(
+                            activeColor: Colors.green,
+                            width: 125.0,
+                            height: 55.0,
+                            valueFontSize: 25.0,
+                            toggleSize: 45.0,
+                            value: statusB2,
+                            borderRadius: 30.0,
+                            padding: 8.0,
+                            showOnOff: true,
+                            activeIcon: Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            inactiveIcon: Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                statusB1 = false;
+                                statusB2 = val;
+                                statusB3 = false;
+                                if (statusB2 == true) {
+                                  Preferences.themeUsed = 1;
+                                  tema.setthemeData(temaCalido());
+                                }
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            'Tema de noche',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          FlutterSwitch(
+                            activeColor: Colors.green,
+                            width: 125.0,
+                            height: 55.0,
+                            valueFontSize: 25.0,
+                            toggleSize: 45.0,
+                            value: statusB3,
+                            borderRadius: 30.0,
+                            padding: 8.0,
+                            showOnOff: true,
+                            activeIcon: Icon(
+                              Icons.nightlight_round,
+                              color: Colors.black,
+                            ),
+                            inactiveIcon: Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                statusB1 = false;
+                                statusB2 = false;
+                                statusB3 = val;
+                                if (statusB3 == true) {
+                                  Preferences.themeUsed = 2;
+                                  tema.setthemeData(temaNoche());
+                                }
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                      inactiveIcon: Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ),
-                      onToggle: (val) {
-                        setState(() {
-                          statusB1 = false;
-                          statusB2 = val;
-                          statusB3 = false;
-                          if (statusB2 == true) {
-                            Preferences.themeUsed = 1;
-                            tema.setthemeData(temaCalido());
-                          }
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text(
-                      'Tema de noche',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    FlutterSwitch(
-                      activeColor: Colors.green,
-                      width: 125.0,
-                      height: 55.0,
-                      valueFontSize: 25.0,
-                      toggleSize: 45.0,
-                      value: statusB3,
-                      borderRadius: 30.0,
-                      padding: 8.0,
-                      showOnOff: true,
-                      activeIcon: Icon(
-                        Icons.nightlight_round,
-                        color: Colors.black,
-                      ),
-                      inactiveIcon: Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ),
-                      onToggle: (val) {
-                        setState(() {
-                          statusB1 = false;
-                          statusB2 = false;
-                          statusB3 = val;
-                          if (statusB3 == true) {
-                            Preferences.themeUsed = 2;
-                            tema.setthemeData(temaNoche());
-                          }
-                        });
-                      },
-                    ),
-
-                    /* TextButton.icon(
-                      onPressed: () {
-                        print('dia');
-                        tema.setthemeData(temaDia());
-                      },
-                      icon: Icon(Icons.brightness_1),
-                      label: Text('Tema de Día'),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {
-                        print('noche');
-                        tema.setthemeData(temaNoche());
-                      },
-                      icon: Icon(Icons.dark_mode),
-                      label: Text('Tema de Noche'),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {
-                        print('calido');
-                        tema.setthemeData(temaCalido());
-                      },
-                      icon: Icon(Icons.hot_tub_sharp),
-                      label: Text('Tema de Día'),
-                    ),*/
-                  ],
-                ),
-                const SizedBox(height: 40),
-                /*Image.asset(
+                      const SizedBox(height: 40),
+                      /*Image.asset(
                   'assets/bananapp.jpg',
                   fit: BoxFit.cover,
                   width: 60,
                 ),
                 */
 
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  'Texto de ejemplo',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 20,
-                      right: MediaQuery.of(context).size.width / 20,
-                      bottom: MediaQuery.of(context).size.width / 20,
-                    ),
-                    child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
-              ],
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Text(
+                        'Texto de ejemplo',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 20,
+                            right: MediaQuery.of(context).size.width / 20,
+                            bottom: MediaQuery.of(context).size.width / 20,
+                          ),
+                          child: Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
+                    ],
                   ),
                 ),
               ]),
         ),
         bottomSheet: isLastPage
-            ? TextButton(
-                onPressed: () {
-                  Preferences.showOnboardin = false;
-                  Navigator.pushNamed(context, '/login');
-                },
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  minimumSize: const Size(double.infinity, 80),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)),
+            ? Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  colors: [Colors.purple, Colors.pink],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  stops: [0.4, 0.7],
+                  tileMode: TileMode.repeated,
+                )),
+                child: TextButton(
+                  onPressed: () {
+                    Preferences.showOnboardin = false;
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 80),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
+                  ),
+                  child: const Text('Get Satarted'),
                 ),
-                child: const Text('Get Satarted'),
               )
             : Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: Theme.of(context).primaryColor,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.purple, Colors.purpleAccent],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    stops: [0.4, 0.7],
+                    tileMode: TileMode.repeated,
+                  ),
+                ),
                 height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -381,13 +526,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
-                        controller.jumpToPage(3);
+                        controller.jumpToPage(7);
                       },
                     ),
                     Center(
                       child: SmoothPageIndicator(
                         controller: controller,
-                        count: 4,
+                        count: 8,
                         effect: const ColorTransitionEffect(
                             spacing: 16,
                             dotColor: Colors.black26,

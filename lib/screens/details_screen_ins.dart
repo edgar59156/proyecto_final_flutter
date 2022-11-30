@@ -13,8 +13,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../firebase/courses_firebase.dart';
 import '../firebase/people_courses_firebase.dart';
 
-class DetailsScreen extends StatefulWidget {
-  DetailsScreen(
+class DetailsScreenIns extends StatefulWidget {
+  DetailsScreenIns(
       {Key? key, required this.taller, this.boxColor, required this.color})
       : super(key: key);
   Color color;
@@ -22,11 +22,10 @@ class DetailsScreen extends StatefulWidget {
   final Color? boxColor;
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<DetailsScreenIns> createState() => _DetailsScreenInsState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
-  CoursesFirebase? _coursesFirebase;
+class _DetailsScreenInsState extends State<DetailsScreenIns> {
   PeopleCoursesFirebase? _peopleCoursesFirebase;
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
@@ -35,7 +34,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _coursesFirebase = CoursesFirebase();
     _peopleCoursesFirebase = PeopleCoursesFirebase();
   }
 
@@ -47,7 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
         body: SingleChildScrollView(
             child: StreamBuilder(
-      stream: _coursesFirebase!.getCourse(widget.taller),
+      stream: _peopleCoursesFirebase!.getCourse(widget.taller),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Center(
@@ -120,8 +118,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Instructor: ${snapshot.data!.docs[0].get('instructor')}"
-                            .toUpperCase(),
+                        //${snapshot.data!.docs[0].get('instructor') ??
+                        "Instructor:  Censored".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 24),
                       ),
@@ -199,29 +197,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                       const SizedBox(height: 10),
                       RoundedLoadingButton(
-                        child: Text('Inscribirme',
+                        child: Text('Dar de baja',
                             style: TextStyle(color: Colors.white)),
                         controller: _btnController,
                         onPressed: () async {
-                          Timer(Duration(seconds: 3), () async {
-                            PeopleCourseModel objCourse = PeopleCourseModel(
-                                costo: snapshot.data!.docs[0].get('costo'),
-                                descripcion:
-                                    snapshot.data!.docs[0].get('descripcion'),
-                                email: Preferences.email,
-                                fotografia:
-                                    snapshot.data!.docs[0].get('fotografia'),
-                                hora_fin:
-                                    snapshot.data!.docs[0].get('hora_fin'),
-                                hora_inicio:
-                                    snapshot.data!.docs[0].get('hora_inicio'),
-                                id_taller:
-                                    snapshot.data!.docs[0].get('id_taller'),
-                                materiales:
-                                    snapshot.data!.docs[0].get('materiales'),
-                                taller: snapshot.data!.docs[0].get('taller'));
-                            _peopleCoursesFirebase!.insPeopleCourse(objCourse);
+                          Timer(Duration(seconds: 3), () {
+                            print('${snapshot.data!.docs[0].id}');
                             _btnController.success();
+                            Navigator.pop(context);
+                            _peopleCoursesFirebase!
+                                .delCourse('${snapshot.data!.docs[0].id}');
                           });
                         },
                       ),
@@ -269,11 +254,5 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ));
       },
     )));
-  }
-
-  void _doSomething() async {
-    Timer(Duration(seconds: 3), () {
-      _btnController.success();
-    });
   }
 }

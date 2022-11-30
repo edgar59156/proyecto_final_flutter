@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_description.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
@@ -10,10 +11,12 @@ import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 import 'package:proyecto_final/storage/storage_repository.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 
 import '../database/database_helper_profile.dart';
 import '../firebase/people_firebase.dart';
 import '../models/profile_model.dart';
+import '../provider/login_provider.dart';
 
 // This class handles the Page to dispaly the user's info on the "Edit Profile" Screen
 class ProfilePage extends StatefulWidget {
@@ -138,6 +141,66 @@ class _ProfilePageState extends State<ProfilePage> {
                       'No disponible', 'Email', EditEmailFormPage(), snapshot),
                   buildUserInfoDisplay('No disponible', 'Github',
                       EditgithubFormPage(), snapshot),
+                  Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 1,
+                          ),
+                          Center(
+                            child: Container(
+                                width: 350,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ))),
+                                child: Row(children: [
+                                  Expanded(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/theme');
+                                          },
+                                          child: Text(
+                                            'Theme',
+                                            style: TextStyle(
+                                                fontSize: 16, height: 1.4),
+                                          ))),
+                                  Icon(
+                                    Icons.style,
+                                    color: Colors.grey,
+                                    size: 40.0,
+                                  )
+                                ])),
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SocialLoginButton(
+                                  buttonType:
+                                      SocialLoginButtonType.generalLogin,
+                                  text: 'Cerrar sesion',
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil('/login',
+                                            (Route<dynamic> route) => false);
+                                    Provider.of<LoginProvider>(context,
+                                            listen: false)
+                                        .logout();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
                 ],
               );
             } else if (snapshot.hasError) {
