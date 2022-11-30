@@ -112,14 +112,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   print(snapshot.data!.docs[0].id);
                                 }
                               },
-                                /*Navigator.pushNamed(context, '/editImage',
+                              /*Navigator.pushNamed(context, '/editImage',
                                     arguments: {
                                       'idUsuario': snapshot.data![0].idUsuario,
                                       'image': snapshot.data![0].image
                                     }).then((value) { 
                                   setState(() {});
                                 });*/
-                              
+
                               elevation: 2.0,
                               fillColor: Color(0xFFF5F6F9),
                               child: Icon(
@@ -130,21 +130,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               shape: CircleBorder(),
                             )),
                       ])),
+                  buildUserInfoDisplay(snapshot.data!.docs[0].get('email'),
+                      'Correo', EditNameFormPage(), snapshot),
                   buildUserInfoDisplay(
-                      snapshot.data!.docs[0].get('fotografia') +
-                          " " +
-                          snapshot.data!.docs[0].get('fotografia') +
-                          " " +
-                          snapshot.data!.docs[0].get('fotografia'),
-                      'Name',
-                      EditNameFormPage(),
-                      snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
-                      'Phone', EditPhoneFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
-                      'Email', EditEmailFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshot.data!.docs[0].get('persona'),
-                      'Github', EditgithubFormPage(), snapshot),
+                      'No disponible', 'Phone', EditPhoneFormPage(), snapshot),
+                  buildUserInfoDisplay(
+                      'No disponible', 'Email', EditEmailFormPage(), snapshot),
+                  buildUserInfoDisplay('No disponible', 'Github',
+                      EditgithubFormPage(), snapshot),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -188,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                         child: TextButton(
                             onPressed: () {
-                              navigateSecondPage(editPage);
+                              // navigateSecondPage(editPage);
                             },
                             child: Text(
                               getValue,
@@ -202,56 +195,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ]))
             ],
           ));
-/*
-  // Widget builds the About Me Section
-  Widget buildAbout(User user) => Padding(
-      padding: EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Tell Us About Yourself',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 1),
-          Container(
-              width: 350,
-              height: 200,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                color: Colors.grey,
-                width: 1,
-              ))),
-              child: Row(children: [
-                Expanded(
-                    child: TextButton(
-                        onPressed: () {
-                          navigateSecondPage(EditDescriptionFormPage());
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  user.aboutMeDescription,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.4,
-                                  ),
-                                ))))),
-                Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Colors.grey,
-                  size: 40.0,
-                )
-              ]))
-        ],
-      ));*/
 
   // Refrshes the Page after updating user info.
   FutureOr onGoBack(dynamic value) {

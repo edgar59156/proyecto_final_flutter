@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/firebase/people_courses_firebase.dart';
+import 'package:proyecto_final/models/course_model.dart';
+import 'package:proyecto_final/models/notifications_model.dart';
 import 'package:proyecto_final/screens/details_screen.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 
@@ -26,6 +28,7 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = new ScrollController();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -74,11 +77,15 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                       _peopleCoursesFirebase!.getAllCourses(Preferences.email),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
                         itemCount: snapshot.data!.docs.length,
+                        controller: scrollController,
                         itemBuilder: (context, index) {
                           var course = snapshot.data!.docs[index];
-                          return ListTile(
+                          /*return ListTile(
                             leading: FadeInImage(
                               image: NetworkImage(
                                 course.get('fotografia'),
@@ -111,6 +118,46 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
                                 ],
                               ),
                             ),*/
+                          );*/
+
+                          return Container(
+                            width: 110,
+                            height: 100,
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailsScreen(
+                                                taller: course.get('taller'),
+                                                color: Colors.blue)));
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: FadeInImage(
+                                      placeholder: NetworkImage(
+                                          'https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif'),
+                                      image: NetworkImage(
+                                          '${course.get('fotografia')}'),
+                                      width: 180,
+                                      height: 140,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  //movie.title,
+                                  course.get('taller'),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
                           );
                         },
                       );
@@ -127,6 +174,55 @@ class _MyCoursesScreenState extends State<MyCoursesScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _CoursePoster extends StatefulWidget {
+  // final Movie movie;
+//  final String heroId;
+
+  _CoursePoster(this.snapshot);
+  CourseModel snapshot;
+  @override
+  State<_CoursePoster> createState() => _CoursePosterState();
+}
+
+class _CoursePosterState extends State<_CoursePoster> {
+  @override
+  Widget build(BuildContext context) {
+    //movie.heroId = heroId;
+
+    return Container(
+      width: 110,
+      height: 100,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: FadeInImage(
+                placeholder: NetworkImage(
+                    'https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif'),
+                image: NetworkImage('${widget.snapshot.fotografia}'),
+                width: 130,
+                height: 120,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            //movie.title,
+            widget.snapshot.taller!,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }

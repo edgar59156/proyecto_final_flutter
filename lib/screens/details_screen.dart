@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -5,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:proyecto_final/models/course_model.dart';
 import 'package:proyecto_final/models/people_course_model.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../firebase/courses_firebase.dart';
@@ -25,6 +28,11 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   CoursesFirebase? _coursesFirebase;
   PeopleCoursesFirebase? _peopleCoursesFirebase;
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
+      
+ 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -192,19 +200,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
+                      RoundedLoadingButton(
+                        child: Text('Tap me!',
+                            style: TextStyle(color: Colors.white)),
+                        controller: _btnController,
+                        onPressed: _doSomething,
+                      ),
                       ElevatedButton(
                         onPressed: () async {
                           PeopleCourseModel objCourse = PeopleCourseModel(
-                            costo: snapshot.data!.docs[0].get('costo'),
-                            descripcion: snapshot.data!.docs[0].get('descripcion'),
-                            email: Preferences.email,
-                            fotografia: snapshot.data!.docs[0].get('fotografia'),
-                            hora_fin: snapshot.data!.docs[0].get('hora_fin'),
-                            hora_inicio: snapshot.data!.docs[0].get('hora_inicio'),
-                            id_taller: snapshot.data!.docs[0].get('id_taller'),
-                            materiales: snapshot.data!.docs[0].get('materiales'),
-                            taller: snapshot.data!.docs[0].get('taller')
-                          );
+                              costo: snapshot.data!.docs[0].get('costo'),
+                              descripcion:
+                                  snapshot.data!.docs[0].get('descripcion'),
+                              email: Preferences.email,
+                              fotografia:
+                                  snapshot.data!.docs[0].get('fotografia'),
+                              hora_fin: snapshot.data!.docs[0].get('hora_fin'),
+                              hora_inicio:
+                                  snapshot.data!.docs[0].get('hora_inicio'),
+                              id_taller:
+                                  snapshot.data!.docs[0].get('id_taller'),
+                              materiales:
+                                  snapshot.data!.docs[0].get('materiales'),
+                              taller: snapshot.data!.docs[0].get('taller'));
                           _peopleCoursesFirebase!.insPeopleCourse(objCourse);
                         },
                         style: ElevatedButton.styleFrom(
@@ -231,5 +249,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ));
       },
     )));
+  }
+   void _doSomething() async {
+    Timer(Duration(seconds: 3), () {
+      _btnController.success();
+      
+    });
   }
 }

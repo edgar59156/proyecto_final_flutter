@@ -1,11 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:proyecto_final/firebase/notifications_firebase.dart';
+import 'package:proyecto_final/models/notifications_model.dart';
 import 'package:proyecto_final/provider/login_provider.dart';
 import 'package:proyecto_final/provider/theme_provider.dart';
 import 'package:proyecto_final/screens/home_screen.dart';
 import 'package:proyecto_final/screens/home_screen_social.dart';
 import 'package:proyecto_final/screens/login_screen.dart';
+import 'package:proyecto_final/screens/message_screen_user.dart';
+import 'package:proyecto_final/screens/notifications_screen.dart';
 import 'package:proyecto_final/screens/onboarding_screen.dart';
 import 'package:proyecto_final/screens/profile_screen.dart';
 import 'package:proyecto_final/screens/profile_screen_social.dart';
@@ -56,16 +60,28 @@ class PFinalApp extends StatefulWidget {
 }
 
 class _PFinalAppState extends State<PFinalApp> {
+  NotificationsFirebase? _notificationsFirebase;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO: implement initState_
+    _notificationsFirebase = NotificationsFirebase();
     super.initState();
     PushNotificationService.messagesStream.listen((message) {
       print('MyApp: $message');
+      Map<String, dynamic> not = message;
+      NotificationsModel notification = NotificationsModel(
+          fecha: not['fecha'],
+          descripcion: not['descripcion'],
+          instructor: not['instructor'],
+          mensaje: not['mensaje'],
+          titulo: not['titulo'],
+          taller: not['taller'],
+          to_email: not['to_email']);
+      _notificationsFirebase!.insPeopleNotification(notification);
       navigatorKey.currentState?.pushNamed('/message', arguments: message);
       final snackBar = SnackBar(content: Text(message.toString()));
       messengerKey.currentState?.showSnackBar(snackBar);
@@ -91,6 +107,7 @@ class _PFinalAppState extends State<PFinalApp> {
         '/onboarding': (BuildContext context) => OnboardingScreen(),
         '/signup': (BuildContext context) => SignUpScreen(),
         '/message': (BuildContext context) => MessageScreen(),
+        '/notification': (BuildContext context) => NotificationScreen(),
       },
     );
   }

@@ -4,6 +4,7 @@ ThemeData temaDia() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
     primaryColor: Colors.red,
+     
     /*textTheme: TextTheme(
         bodyText1: TextStyle(),
         bodyText2: TextStyle(),
@@ -54,16 +55,20 @@ ThemeData temaNoche() {
 
 ThemeData temaCalido() {
   final ThemeData base = ThemeData.dark();
+  
   return base.copyWith(
+    
     primaryColor: Color.fromARGB(255, 231, 146, 26),
     textTheme: TextTheme(
       bodyText1: TextStyle(),
       bodyText2: TextStyle(),
+      
     ).apply(
         bodyColor: Colors.red,
         displayColor: Colors.red,
         decorationColor: Colors.red),
     hintColor: Colors.blue,
     unselectedWidgetColor: Colors.blue
+    
   );
 }

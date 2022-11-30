@@ -2,7 +2,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/models/arguments_model.dart';
 import 'package:proyecto_final/screens/courses_screen.dart';
+import 'package:proyecto_final/screens/message_screen.dart';
 import 'package:proyecto_final/screens/my_courses_screen.dart';
+import 'package:proyecto_final/screens/notifications_screen.dart';
 import 'package:proyecto_final/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,19 +12,32 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-  
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
   final screens = [CoursesScreen(), MyCoursesScreen(), ProfilePage()];
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  
+
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.lightBlue,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/notification');
+              },
+            )
+          ],
+        ),
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: 0,
