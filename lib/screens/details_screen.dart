@@ -9,6 +9,7 @@ import 'package:proyecto_final/models/people_course_model.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../firebase/courses_firebase.dart';
 import '../firebase/people_courses_firebase.dart';
@@ -184,7 +185,38 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Description",
+                        "Video Youtube",
+                        style: TextStyle(fontSize: 40),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                        height: MediaQuery.of(context).size.height * .30,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
+                        child: YoutubePlayer(
+                          controller: YoutubePlayerController(
+                            initialVideoId:
+                                "${snapshot.data!.docs[0].get('video') ?? "dQw4w9WgXcQ"}",
+                            flags: const YoutubePlayerFlags(
+                                hideControls: false,
+                                controlsVisibleAtStart: true,
+                                autoPlay: true,
+                                mute: false,
+                                showLiveFullscreenButton: false),
+                          ),
+                          
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: Colors.blue,
+                        ),
+                      ),
+                      Text(
+                        "Descripción",
                         style: TextStyle(fontSize: 42),
                       ),
                       const SizedBox(

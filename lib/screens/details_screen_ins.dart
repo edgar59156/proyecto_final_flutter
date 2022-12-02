@@ -9,6 +9,7 @@ import 'package:proyecto_final/models/people_course_model.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../firebase/courses_firebase.dart';
 import '../firebase/people_courses_firebase.dart';
@@ -82,7 +83,7 @@ class _DetailsScreenInsState extends State<DetailsScreenIns> {
                             borderRadius: BorderRadius.circular(12),
                             child: Image(
                               image: NetworkImage(
-                                  "${snapshot.data!.docs[0].get('fotografia')}"),
+                                  "${snapshot.data!.docs[0].get('fotografia') ?? 'https://webstockreview.net/images/banana-clipart-logo-9.png'}"),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -178,6 +179,7 @@ class _DetailsScreenInsState extends State<DetailsScreenIns> {
                           ),
                         ],
                       ),
+                      
                       const SizedBox(
                         height: 20,
                       ),
@@ -210,37 +212,7 @@ class _DetailsScreenInsState extends State<DetailsScreenIns> {
                           });
                         },
                       ),
-                      /*ElevatedButton(
-                        onPressed: () async {
-                          PeopleCourseModel objCourse = PeopleCourseModel(
-                              costo: snapshot.data!.docs[0].get('costo'),
-                              descripcion:
-                                  snapshot.data!.docs[0].get('descripcion'),
-                              email: Preferences.email,
-                              fotografia:
-                                  snapshot.data!.docs[0].get('fotografia'),
-                              hora_fin: snapshot.data!.docs[0].get('hora_fin'),
-                              hora_inicio:
-                                  snapshot.data!.docs[0].get('hora_inicio'),
-                              id_taller:
-                                  snapshot.data!.docs[0].get('id_taller'),
-                              materiales:
-                                  snapshot.data!.docs[0].get('materiales'),
-                              taller: snapshot.data!.docs[0].get('taller'));
-                          _peopleCoursesFirebase!.insPeopleCourse(objCourse);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                        ),
-                        child: Text(
-                          "Inscribirme",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline2
-                              ?.copyWith(fontSize: 18, color: Colors.white),
-                        ),
-                      ),
-                    */
+                      
                     ],
                   ),
                 ),

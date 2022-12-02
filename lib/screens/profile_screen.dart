@@ -233,8 +233,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Center(
                             child: const Text(
-                              'Suscripciones a nuevos cursos',
-                              style: TextStyle(fontSize: 16, height: 1.4),
+                              'Suscribete para recibir notificaciones sobre nuevos cursos',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  height: 1.4,
+                                  color: Colors.blue),
                             ),
                           ),
                           SizedBox(
@@ -266,10 +269,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       .subscribeToTopic('Cursos')
                                       .then((value) {
                                     final snackBar = SnackBar(
-                                        content: Text('Te has suscrito al tema',
-                                            style: TextStyle(
-                                                fontFamily: 'Mukta',
-                                                fontWeight: FontWeight.bold)));
+                                        content: Text(
+                                      'Te has suscrito al tema',
+                                    ));
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   });
@@ -279,10 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                   final snackBar = SnackBar(
                                       content: Text(
-                                          'Te has dessuscrito al tema',
-                                          style: TextStyle(
-                                              fontFamily: 'Mukta',
-                                              fontWeight: FontWeight.bold)));
+                                    'Has eliminado la suscripción al tema',
+                                  ));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }
@@ -302,6 +302,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       SocialLoginButtonType.generalLogin,
                                   text: 'Cerrar sesion',
                                   onPressed: () {
+                                    Preferences.isLogged = false;
                                     Navigator.of(context)
                                         .pushNamedAndRemoveUntil('/login',
                                             (Route<dynamic> route) => false);

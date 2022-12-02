@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
+import 'package:proyecto_final/shared_preferences/preferencias.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import '../database/database_helper_profile.dart';
 import '../models/profile_model.dart';
@@ -115,16 +118,75 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                           ])),
                     ),
                   ),
+                  Center(
+                    child: const Text(
+                      'Suscribete para recibir notificaciones sobre nuevos cursos',
+                      style: TextStyle(
+                          fontSize: 16, height: 1.4, color: Colors.blue),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  FlutterSwitch(
+                    activeColor: Colors.green,
+                    width: 90.0,
+                    height: 55.0,
+                    valueFontSize: 25.0,
+                    toggleSize: 45.0,
+                    value: Preferences.susbVal,
+                    borderRadius: 30.0,
+                    padding: 8.0,
+                    showOnOff: true,
+                    activeIcon: Icon(
+                      Icons.notifications_active,
+                      color: Colors.black,
+                    ),
+                    inactiveIcon: Icon(
+                      Icons.notifications_none,
+                      color: Colors.red,
+                    ),
+                    onToggle: (val) {
+                      setState(() {
+                        Preferences.susbVal = val;
+                        if (Preferences.susbVal == true) {
+                          FirebaseMessaging.instance
+                              .subscribeToTopic('Cursos')
+                              .then((value) {
+                            final snackBar = SnackBar(
+                                content: Text(
+                              'Te has suscrito al tema',
+                            ));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          });
+                        } else if (Preferences.susbVal == false) {
+                          FirebaseMessaging.instance
+                              .unsubscribeFromTopic('Cursos');
+
+                          final snackBar = SnackBar(
+                              content: Text(
+                            'Has eliminado la suscripción al tema',
+                          ));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: SocialLoginButton(
                       buttonType: SocialLoginButtonType.generalLogin,
                       text: 'Cerrar sesion',
                       onPressed: () {
+                        Preferences.isLogged = false;
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             '/login', (Route<dynamic> route) => false);
-                        Provider.of<LoginProvider>(context, listen: false)
-                            .logout();
+                        /*Provider.of<LoginProvider>(context, listen: false)
+                            .logout();*/
                       },
                     ),
                   ),
