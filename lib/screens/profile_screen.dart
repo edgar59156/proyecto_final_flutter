@@ -11,6 +11,7 @@ import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
 import 'package:proyecto_final/shared_preferences/preferencias.dart';
 import 'package:proyecto_final/storage/storage_repository.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 import '../database/database_helper_profile.dart';
@@ -100,9 +101,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                 final XFile? _image = await _picker.pickImage(
                                     source: ImageSource.gallery);
                                 if (_image == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  /*ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content: Text('No selected image')));
+                                          content: Text('No selected image')));*/
+                                  Alert(
+                                    context: context,
+                                    title: "Error :(",
+                                    desc: "No se seleccionó imagen",
+                                    image: Image.asset("assets/info.png"),
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                        ),
+                                        onPressed: () => Navigator.pop(context),
+                                        color: Colors.lightBlue,
+                                        radius: BorderRadius.circular(0.0),
+                                      ),
+                                    ],
+                                  ).show();
                                 }
                                 if (_image != null) {
                                   print('Uploading...');
@@ -110,6 +130,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                       .uploadImage(_image);
 
                                   print('image url: ${downloadUrl}');
+                                  Alert(
+                                    context: context,
+                                    title: "Imagen cargada correctamente",
+                                    desc: "Imagen almacenada en la nube",
+                                    image: Image.asset("assets/check.png"),
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                        ),
+                                        onPressed: () => Navigator.pop(context),
+                                        color: Colors.lightBlue,
+                                        radius: BorderRadius.circular(0.0),
+                                      ),
+                                    ],
+                                  ).show();
                                   _peopleFirebase!.updPeopleImg(
                                       snapshot.data!.docs[0].id, downloadUrl);
                                   print(snapshot.data!.docs[0].id);
@@ -133,14 +172,23 @@ class _ProfilePageState extends State<ProfilePage> {
                               shape: CircleBorder(),
                             )),
                       ])),
+                  buildUserInfoDisplay(
+                      snapshot.data!.docs[0].get('name'),
+                      'Nombre completo',
+                      EditNameFormPage(
+                        id: snapshot.data!.docs[0].id,
+                        name: snapshot.data!.docs[0].get('name'),
+                      ),
+                      snapshot),
                   buildUserInfoDisplay(snapshot.data!.docs[0].get('email'),
-                      'Correo', EditNameFormPage(), snapshot),
+                      'Email', EditEmailFormPage(), snapshot),
                   buildUserInfoDisplay(
-                      'No disponible', 'Phone', EditPhoneFormPage(), snapshot),
-                  buildUserInfoDisplay(
-                      'No disponible', 'Email', EditEmailFormPage(), snapshot),
-                  buildUserInfoDisplay('No disponible', 'Github',
-                      EditgithubFormPage(), snapshot),
+                      snapshot.data!.docs[0].get('phone'),
+                      'Phone',
+                      EditPhoneFormPage(
+                          id: snapshot.data!.docs[0].id,
+                          phone: snapshot.data!.docs[0].get('phone')),
+                      snapshot),
                   Padding(
                       padding: EdgeInsets.only(bottom: 10),
                       child: Column(
@@ -244,7 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                         child: TextButton(
                             onPressed: () {
-                              // navigateSecondPage(editPage);
+                              navigateSecondPage(editPage);
                             },
                             child: Text(
                               getValue,

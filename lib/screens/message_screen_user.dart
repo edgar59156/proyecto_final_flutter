@@ -206,6 +206,7 @@ class _MessageScreenUserState extends State<MessageScreenUser> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () async {
+                  Navigator.pop(context);
                   /*
                     Uri url = Uri.parse("snapshot.data?.volumeInfo?.infoLink}");
 

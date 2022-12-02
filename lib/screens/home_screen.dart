@@ -49,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           color: Colors.lightBlue,
           buttonBackgroundColor: Colors.grey.shade500,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
+          
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 600),
           onTap: (index) {

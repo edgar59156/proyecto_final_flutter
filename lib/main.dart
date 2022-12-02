@@ -83,7 +83,7 @@ class _PFinalAppState extends State<PFinalApp> {
           to_email: not['to_email']);
       _notificationsFirebase!.insPeopleNotification(notification);
       navigatorKey.currentState?.pushNamed('/message', arguments: message);
-      final snackBar = SnackBar(content: Text(message.toString()));
+      final snackBar = SnackBar(content: Text('Notificacion recibida'));
       messengerKey.currentState?.showSnackBar(snackBar);
     });
   }

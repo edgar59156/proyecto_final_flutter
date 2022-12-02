@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../database/database_helper_profile.dart';
 import '../../widgets/appbar_widget.dart';
@@ -35,6 +36,23 @@ class EditgithubFormPageState extends State<EditgithubFormPage> {
     print(github);
     _database!.actualizar({'idUsuario': 1, 'github': githubController.text}, 'tblUsuario').then(
       (value) {
+        Alert(
+          context: context,
+          title: "Error :(",
+          desc: "Verificar correo, o que la contraseña coincida",
+          image: Image.asset("assets/close.png"),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Reintentar",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Colors.lightBlue,
+              radius: BorderRadius.circular(0.0),
+            ),
+          ],
+        ).show();
         final snackbar =
             SnackBar(content: Text('Usuario actualizado correctamente'));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);

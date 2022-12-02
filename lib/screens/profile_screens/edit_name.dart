@@ -1,12 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../../database/database_helper_profile.dart';
+import '../../firebase/people_firebase.dart';
 import '../../widgets/appbar_widget.dart';
 
 // This class handles the Page to edit the Name Section of the User Profile.
 class EditNameFormPage extends StatefulWidget {
-  const EditNameFormPage({Key? key}) : super(key: key);
+  EditNameFormPage({Key? key, required this.id, required this.name})
+      : super(key: key);
+  String id;
+  String name;
 
   @override
   EditNameFormPageState createState() {
@@ -18,10 +24,7 @@ class EditNameFormPageState extends State<EditNameFormPage> {
   DatabaseHelperProfile? _database;
   final _formKey = GlobalKey<FormState>();
   final nombreControler = TextEditingController();
-  final apellidoPaternoControler = TextEditingController();
-  final apellidoMaternoControler = TextEditingController();
-
-
+  PeopleFirebase? _peopleFirebase;
   @override
   void dispose() {
     nombreControler.dispose();
@@ -32,21 +35,31 @@ class EditNameFormPageState extends State<EditNameFormPage> {
     // TODO: implement initState
     super.initState();
     _database = DatabaseHelperProfile();
-    nombreControler.text = '';
-    apellidoMaternoControler.text = '';
-    apellidoPaternoControler.text = '';
+    _peopleFirebase = PeopleFirebase();
+    nombreControler.text = widget.name;
   }
 
-  void updateUserValue(
-      String nombre, String apellidoPaterno, String apellidoMaterno) {
-    print(nombre + " " + apellidoPaterno);
-    _database!.actualizar({
-      'idUsuario': 1,
-      'nombre': nombre,
-      'apellidoPaterno': apellidoPaterno,
-      'apellidoMaterno': apellidoMaterno
-    }, 'tblUsuario').then(
+  void updateUserValue(String nombre) {
+    print(nombre);
+    _peopleFirebase?.updPeopleName(widget.id, nombre).then(
       (value) {
+        Alert(
+          context: context,
+          title: "Éxito",
+          desc: "Datos del usuario actualizados correctamente",
+          image: Image.asset("assets/check.png"),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Colors.lightBlue,
+              radius: BorderRadius.circular(0.0),
+            ),
+          ],
+        ).show();
         final snackbar =
             SnackBar(content: Text('Usuario actualizado correctamente'));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -92,49 +105,13 @@ class EditNameFormPageState extends State<EditNameFormPage> {
                               // Handles Form Validation for First Name
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your first name';
-                                } else if (!isAlpha(value)) {
-                                  return 'Only Letters Please';
+                                  return 'Ingresa tu nombre';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(labelText: 'Nombre'),
                               controller: nombreControler,
                             )),
-                        SizedBox(
-                            height: 100,
-                            width: 250,
-                            child: TextFormField(
-                              // Handles Form Validation for Last Name
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your last name';
-                                } else if (!isAlpha(value)) {
-                                  return 'Only Letters Please';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  labelText: 'Apellido Paterno'),
-                              controller: apellidoPaternoControler,
-                            )),
-                        SizedBox(
-                            height: 100,
-                            width: 250,
-                            child: TextFormField(
-                              // Handles Form Validation for Last Name
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your last name';
-                                } else if (!isAlpha(value)) {
-                                  return 'Only Letters Please';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  labelText: 'Apellido Materno'),
-                              controller: apellidoMaternoControler,
-                            ))
                       ],
                     ),
                   ),
@@ -150,19 +127,15 @@ class EditNameFormPageState extends State<EditNameFormPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate() &&
-                                isAlpha(nombreControler.text +
-                                    apellidoPaternoControler.text +
-                                    apellidoMaternoControler.text)) {
+                            if (_formKey.currentState!.validate()) {
                               updateUserValue(
-                                  nombreControler.text,
-                                  apellidoPaternoControler.text,
-                                  apellidoMaternoControler.text);
-                              Navigator.pop(context);
+                                nombreControler.text,
+                              );
+                              //Navigator.pop(context);
                             }
                           },
                           child: const Text(
-                            'Update',
+                            'Actualizar',
                             style: TextStyle(fontSize: 15),
                           ),
                         ),

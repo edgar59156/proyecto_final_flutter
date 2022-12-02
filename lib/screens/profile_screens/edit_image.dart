@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:io';
 
 import '../../database/database_helper_profile.dart';
@@ -156,6 +157,24 @@ class _EditImagePageState extends State<EditImagePage> {
                     'image': imagePath,
                   }, 'tblUsuario').then(
                     (value) {
+                      Alert(
+                        context: context,
+                        title: "Error :(",
+                        desc: "Verificar correo, o que la contraseña coincida",
+                        image: Image.asset("assets/close.png"),
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "Reintentar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                            color: Colors.lightBlue,
+                            radius: BorderRadius.circular(0.0),
+                          ),
+                        ],
+                      ).show();
                       final snackbar = SnackBar(
                           content: Text('Imagen actualizada correctamente'));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -163,6 +182,23 @@ class _EditImagePageState extends State<EditImagePage> {
                     },
                   );
                 } else {
+                  Alert(
+                    context: context,
+                    title: "Error :(",
+                    desc: "Verificar correo, o que la contraseña coincida",
+                    image: Image.asset("assets/close.png"),
+                    buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Reintentar",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        color: Colors.lightBlue,
+                        radius: BorderRadius.circular(0.0),
+                      ),
+                    ],
+                  ).show();
                   final snackbar = SnackBar(content: Text('Ocurrio un error'));
                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 }

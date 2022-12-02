@@ -51,62 +51,69 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
                   InkWell(
                       onTap: () {
                         //navigateSecondPage(EditImagePage());
-                        Navigator.pushNamed(context, '/editImage', arguments: {
+                        /* Navigator.pushNamed(context, '/editImage', arguments: {
                           'idUsuario': snapshot.data![0].idUsuario,
                           'image': snapshot.data![0].image
                         }).then((value) {
                           setState(() {});
-                        });
+                        });*/
                       },
                       child: Stack(children: [
-                        Hero(
-                          tag: "profile-image",
-                          child: CircleAvatar(
-                            radius: 90,
-                            child: snapshotS.userDetails!.photoURL!.isNotEmpty
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(75),
-                                    child: Image.network(
-                                        '${snapshotS.userDetails!.photoURL!}'),
-                                  )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(75),
-                                    child: Image.network(
-                                        'https://webstockreview.net/images/banana-clipart-logo-9.png'),
-                                  ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Hero(
+                            tag: "profile-image",
+                            child: CircleAvatar(
+                              radius: 90,
+                              child: snapshotS.userDetails!.photoURL!.isNotEmpty
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(75),
+                                      child: Image.network(
+                                          '${snapshotS.userDetails!.photoURL!}'),
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(75),
+                                      child: Image.network(
+                                          'https://webstockreview.net/images/banana-clipart-logo-9.png'),
+                                    ),
+                            ),
                           ),
                         ),
                       ])),
-                  buildUserInfoDisplay(snapshotS.userDetails!.displayName!,
-                      'Name', EditNameFormPage(), snapshot),
-                  buildUserInfoDisplay(snapshotS.userDetails!.email!, 'Email',
-                      EditEmailFormPage(), snapshot),
-                  Center(
-                    child: Container(
-                        width: 350,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ))),
-                        child: Row(children: [
-                          Expanded(
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/theme');
-                                  },
-                                  child: Text(
-                                    'Theme',
-                                    style: TextStyle(fontSize: 16, height: 1.4),
-                                  ))),
-                          Icon(
-                            Icons.style,
+                  buildUserInfoDisplay(
+                      snapshotS.userDetails!.displayName!, 'Name', snapshot),
+                  buildUserInfoDisplay(
+                      snapshotS.userDetails!.email!, 'Email', snapshot),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Center(
+                      child: Container(
+                          width: 350,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
                             color: Colors.grey,
-                            size: 40.0,
-                          )
-                        ])),
+                            width: 1,
+                          ))),
+                          child: Row(children: [
+                            Expanded(
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/theme');
+                                    },
+                                    child: Text(
+                                      'Theme',
+                                      style:
+                                          TextStyle(fontSize: 16, height: 1.4),
+                                    ))),
+                            Icon(
+                              Icons.style,
+                              color: Colors.grey,
+                              size: 40.0,
+                            )
+                          ])),
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
@@ -133,8 +140,8 @@ class _ProfilePageSocialState extends State<ProfilePageSocial> {
   }
 
   // Widget builds the display item with the proper formatting to display the user's info
-  Widget buildUserInfoDisplay(String getValue, String title, Widget editPage,
-          AsyncSnapshot snapshot) =>
+  Widget buildUserInfoDisplay(
+          String getValue, String title, AsyncSnapshot snapshot) =>
       Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Column(

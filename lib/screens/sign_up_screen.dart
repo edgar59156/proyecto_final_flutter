@@ -4,8 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_email.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_githubpage.dart';
-import 'package:proyecto_final/screens/profile_screens/edit_name.dart';
-import 'package:proyecto_final/screens/profile_screens/edit_phone.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:string_validator/string_validator.dart';
@@ -24,6 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final correo = TextEditingController();
   final contrasena = TextEditingController();
   final confirmContra = TextEditingController();
+  final name = TextEditingController();
+  final phone = TextEditingController();
 
   @override
   void initState() {
@@ -66,14 +67,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ])),
-        buildUserInfoDisplay('example@gmail.com', 'Email', EditEmailFormPage()),
+        buildUserInfoDisplayEmail(
+            'example@gmail.com', 'Email', EditEmailFormPage()),
         SizedBox(
-          height: 15,
+          height: 5,
         ),
         buildUserInfoDisplayContrasena(
             '@Github', 'Contraseña', EditgithubFormPage()),
         SizedBox(
-          height: 15,
+          height: 5,
         ),
         buildUserInfoDisplayConfirm(
             '@Github', 'Confirmar contraseña', EditgithubFormPage()),
@@ -87,21 +89,101 @@ class _SignUpScreenState extends State<SignUpScreen> {
             text: 'Sing Up',
             onPressed: () {
               if (EmailValidator.validate(correo.text) &&
-                  contrasena.text == confirmContra.text) {
+                  contrasena.text == confirmContra.text &&
+                  contrasena.text.length >= 8) {
                 _emailAuth!
                     .createUserWithEmailAndPassword(
-                        email: correo.text, password: contrasena.text)
+                  email: correo.text,
+                  password: contrasena.text,
+                )
                     .then((value) {
-                  Navigator.pop(context);
-                  final snackBar = SnackBar(
+                  //Navigator.pop(context);
+
+                  /*final snackBar = SnackBar(
                       content:
                           Text('Cuenta creada exitosamente, verificar cuenta'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
+                  Alert(
+                    context: context,
+                    title: "Éxito",
+                    desc: "Cuenta creada exitosamente, verificar cuenta",
+                    image: Image.asset("assets/check.png"),
+                    buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        color: Colors.lightBlue,
+                        radius: BorderRadius.circular(0.0),
+                      ),
+                    ],
+                  ).show();
                 });
-              } else {
-                final snackBar =
-                    SnackBar(content: Text('Verificar correo o que la contraseña coincida'));
+              } else if (contrasena.text.length < 8) {
+                /*final snackBar = SnackBar(
+                    content:
+                        Text('Ingrese una contraseña mayor a 8 caracteres'));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                */
+                Alert(
+                  context: context,
+                  title: "Error :(",
+                  desc: "Ingrese una contraseña mayor a 8 caracteres",
+                  image: Image.asset("assets/close.png"),
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Reintentar",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      color: Colors.lightBlue,
+                      radius: BorderRadius.circular(0.0),
+                    ),
+                  ],
+                ).show();
+              } else if (EmailValidator.validate(correo.text) == false) {
+                Alert(
+                  context: context,
+                  title: "Error :(",
+                  desc: "Ingresar un correo válido",
+                  image: Image.asset("assets/close.png"),
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Reintentar",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      color: Colors.lightBlue,
+                      radius: BorderRadius.circular(0.0),
+                    ),
+                  ],
+                ).show();
+              } else {
+                /*final snackBar = SnackBar(
+                    content:
+                        Text('Verificar correo, o que la contraseña coincida'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
+                Alert(
+                  context: context,
+                  title: "Error :(",
+                  desc: "Verificar correo, o que la contraseña coincida",
+                  image: Image.asset("assets/close.png"),
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Reintentar",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      color: Colors.lightBlue,
+                      radius: BorderRadius.circular(0.0),
+                    ),
+                  ],
+                ).show();
               }
               /* _emailAuth!
                   .createUserWithEmailAndPassword(
@@ -123,7 +205,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   // Widget builds the display item with the proper formatting to display the user's info
-  Widget buildUserInfoDisplay(String getValue, String title, Widget editPage) =>
+  Widget buildUserInfoDisplayEmail(
+          String getValue, String title, Widget editPage) =>
       Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Column(
@@ -198,12 +281,98 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // Handles Form Validation for First Name
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Coloca un texto';
+                          return 'Coloca una contrasena';
                         }
                         return null;
                       },
 
                       controller: contrasena,
+                    )),
+                  ]))
+            ],
+          ));
+  Widget buildUserInfoDisplayPhone(
+          String getValue, String title, Widget editPage) =>
+      Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 1,
+              ),
+              Container(
+                  width: 350,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ))),
+                  child: Row(children: [
+                    Expanded(
+                        child: TextFormField(
+                      // Handles Form Validation for First Name
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Coloca una contrasena';
+                        }
+                        return null;
+                      },
+
+                      controller: phone,
+                    )),
+                  ]))
+            ],
+          ));
+  Widget buildUserInfoDisplayName(
+          String getValue, String title, Widget editPage) =>
+      Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 1,
+              ),
+              Container(
+                  width: 350,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1,
+                  ))),
+                  child: Row(children: [
+                    Expanded(
+                        child: TextFormField(
+                      // Handles Form Validation for First Name
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Coloca una contrasena';
+                        }
+                        return null;
+                      },
+
+                      controller: name,
                     )),
                   ]))
             ],
@@ -241,7 +410,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // Handles Form Validation for First Name
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Coloca un texto';
+                          return 'Coloca una contrasena';
                         }
                         return null;
                       },

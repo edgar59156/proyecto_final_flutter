@@ -1,10 +1,14 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_final/models/people_model.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import '../database/database_helper_profile.dart';
 import '../firebase/email_authentication.dart';
@@ -30,7 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController txtConUser = TextEditingController();
   TextEditingController txtConPwd = TextEditingController();
-
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final EmailAuthentication _emailAuth = EmailAuthentication();
   DatabaseHelperProfile? _database;
@@ -117,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
             text: 'Login',
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () {
-              
               Navigator.pushNamed(context, '/homeS', arguments: model);
             },
           ),
@@ -201,38 +205,93 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width / 15),
                 width: MediaQuery.of(context).size.width / 1.4,
-                child: SocialLoginButton(
-                  buttonType: SocialLoginButtonType.generalLogin,
-                  backgroundColor: Colors.blue,
-                  text: 'Iniciar Sesion',
-                  onPressed: () async {
-                    var ban = await _emailAuth.signInWithEmailAndPassword(
-                        email: txtConUser.text, password: txtConPwd.text);
-                    if (ban == true) {
-                      if (_auth.currentUser!.emailVerified) {
-                        //updateUserValue(txtConUser.text);
-                        
-                        print(txtConUser.text);
-                        Preferences.email = txtConUser.text;
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                        );
-                      } else {
-                        final snackBar = SnackBar(
+                child: RoundedLoadingButton(
+                    controller: _btnController,
+                    color: Colors.blue,
+                    child: Text('Iniciar Sesión',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () async {
+                      Timer(
+                        Duration(seconds: 3),
+                        () async {
+                          var ban = await _emailAuth.signInWithEmailAndPassword(
+                              email: txtConUser.text, password: txtConPwd.text);
+                          if (ban == true) {
+                            if (_auth.currentUser!.emailVerified) {
+                              //updateUserValue(txtConUser.text);
+
+                              print(txtConUser.text);
+                              _btnController.success();
+                              Preferences.email = txtConUser.text;
+                              _btnController.reset();
+                              Navigator.pushNamed(
+                                context,
+                                '/home',
+                              );
+                            } else {
+                              /* final snackBar = SnackBar(
                             content:
                                 Text('Verificar correo para iniciar sesión'));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        print('Usuario no validado');
-                      }
-                    } else {
-                      final snackBar =
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
+                              _btnController.error();
+                              Alert(
+                                context: context,
+                                title: "Error :(",
+                                desc: "Verificar correo para iniciar sesión",
+                                image: Image.asset("assets/info.png"),
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Reintentar",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    color: Colors.lightBlue,
+                                    radius: BorderRadius.circular(0.0),
+                                  ),
+                                ],
+                              ).show();
+                              print('Usuario no validado');
+                              _btnController.reset();
+                            }
+                          } else {
+                            /*final snackBar =
                           SnackBar(content: Text('Credenciales invalidas'));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      print('credenciales invalidas');
-                    }
-                  },
-                ),
+                      */
+                            print('credenciales invalidas');
+                            _btnController.error();
+                            /* Alert(
+                        context: context,
+                        title: "RFLUTTER ALERT",
+                        desc: "Flutter is more awesome with RFlutter Alert.",
+                        alertAnimation: fadeAlertAnimation,
+                      ).show();
+*/
+                            Alert(
+                              context: context,
+                              title: "Error :(",
+                              desc: "Credenciales inválidas",
+                              image: Image.asset("assets/close.png"),
+                              buttons: [
+                                DialogButton(
+                                  child: Text(
+                                    "Reintentar",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  onPressed: () => Navigator.pop(context),
+                                  color: Colors.lightBlue,
+                                  radius: BorderRadius.circular(0.0),
+                                ),
+                              ],
+                            ).show();
+                            _btnController.reset();
+                          }
+                        },
+                      );
+                    }),
               ),
             ],
           ),
@@ -298,6 +357,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void updateUserValue(String email) {
     print(email);
+    Alert(
+      context: context,
+      title: "Error :(",
+      desc: "Credenciales inválidas",
+      image: Image.asset("assets/close.png"),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Reintentar",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.lightBlue,
+          radius: BorderRadius.circular(0.0),
+        ),
+      ],
+    ).show();
+
     _database!.actualizar({'idUsuario': 1, 'email': email}, 'tblUsuario').then(
       (value) {
         final snackbar = SnackBar(
@@ -306,4 +383,18 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
   }
+}
+
+Widget fadeAlertAnimation(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) {
+  return Align(
+    child: FadeTransition(
+      opacity: animation,
+      child: child,
+    ),
+  );
 }

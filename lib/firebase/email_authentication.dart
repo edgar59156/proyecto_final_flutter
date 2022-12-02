@@ -16,8 +16,13 @@ class EmailAuthentication {
       user.sendEmailVerification();
       PeopleFirebase? _peopleFirebase;
       _peopleFirebase = PeopleFirebase();
-      PeopleModel objPeople =
-          PeopleModel(email: email, fotografia: '', id_persona: 1, persona: '');
+      PeopleModel objPeople = PeopleModel(
+          email: email,
+          fotografia: '',
+          id_persona: 1,
+          persona: '',
+          name: '',
+          phone: '');
       _peopleFirebase.insPeople(objPeople);
       return true;
     } catch (e) {

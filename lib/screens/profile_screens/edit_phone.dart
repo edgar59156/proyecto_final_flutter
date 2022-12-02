@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../../database/database_helper_profile.dart';
+import '../../firebase/people_firebase.dart';
 import '../../widgets/appbar_widget.dart';
 
 // This class handles the Page to edit the Phone Section of the User Profile.
 class EditPhoneFormPage extends StatefulWidget {
-  const EditPhoneFormPage({Key? key}) : super(key: key);
+  EditPhoneFormPage({Key? key, required this.id, required this.phone})
+      : super(key: key);
+  String id;
+  String phone;
   @override
   EditPhoneFormPageState createState() {
     return EditPhoneFormPageState();
@@ -15,6 +20,7 @@ class EditPhoneFormPage extends StatefulWidget {
 
 class EditPhoneFormPageState extends State<EditPhoneFormPage> {
   DatabaseHelperProfile? _database;
+  PeopleFirebase? _peopleFirebase;
   final _formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   @override
@@ -27,20 +33,31 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
     // TODO: implement initState
     super.initState();
     _database = DatabaseHelperProfile();
+    _peopleFirebase = PeopleFirebase();
+    phoneController.text = widget.phone;
   }
 
   void updateUserValue(String phone) {
-    String formattedPhoneNumber = "(" +
-        phone.substring(0, 3) +
-        ") " +
-        phone.substring(3, 6) +
-        "-" +
-        phone.substring(6, phone.length);
-    print(formattedPhoneNumber);
     print(phoneController.text);
-    _database!.actualizar(
-        {'idUsuario': 1, 'telefono': formattedPhoneNumber}, 'tblUsuario').then(
+    _peopleFirebase?.updPeoplePhone(widget.id, phone).then(
       (value) {
+        Alert(
+          context: context,
+          title: "Éxito",
+          desc: "Teléfono actualizado correctamente",
+          image: Image.asset("assets/check.png"),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Ok",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              color: Colors.lightBlue,
+              radius: BorderRadius.circular(0.0),
+            ),
+          ],
+        ).show();
         final snackbar =
             SnackBar(content: Text('Usuario actualizado correctamente'));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -100,11 +117,11 @@ class EditPhoneFormPageState extends State<EditPhoneFormPage> {
                               if (_formKey.currentState!.validate() &&
                                   isNumeric(phoneController.text)) {
                                 updateUserValue(phoneController.text);
-                                Navigator.pop(context);
+                                // Navigator.pop(context);
                               }
                             },
                             child: const Text(
-                              'Update',
+                              'Actualizar',
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
