@@ -8,6 +8,7 @@ class Preferences {
   static String _lastName = '';
   static bool _showOnboradin = true;
   static int _themeUsed = 0;
+  static bool _susbVal = false;
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -21,6 +22,7 @@ class Preferences {
     _name = name;
     _prefs.setString('name', name);
   }
+
   static String get email {
     return _prefs.getString('email') ?? _email;
   }
@@ -29,6 +31,7 @@ class Preferences {
     _email = email;
     _prefs.setString('email', email);
   }
+
   static String get lastName {
     return _prefs.getString('lastName') ?? _lastName;
   }
@@ -46,6 +49,7 @@ class Preferences {
     _isLogged = value;
     _prefs.setBool('isLogged', value);
   }
+
   static int get themeUsed {
     return _prefs.getInt('themeUsed') ?? _themeUsed;
   }
@@ -54,6 +58,7 @@ class Preferences {
     _themeUsed = value;
     _prefs.setInt('themeUsed', value);
   }
+
   static set showOnboardin(bool show) {
     _showOnboradin = show;
     _prefs.setBool('showOnboarding', _showOnboradin);
@@ -61,5 +66,13 @@ class Preferences {
 
   static bool get showOnboardin {
     return _prefs.getBool('showOnboarding') ?? _showOnboradin;
+  }
+   static set susbVal(bool show) {
+    _susbVal = show;
+    _prefs.setBool('susbValg', _susbVal);
+  }
+
+  static bool get susbVal {
+    return _prefs.getBool('susbValg') ?? _susbVal;
   }
 }

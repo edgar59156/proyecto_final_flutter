@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:proyecto_final/screens/profile_screens/edit_description.dart';
@@ -225,6 +227,70 @@ class _ProfilePageState extends State<ProfilePage> {
                                     size: 40.0,
                                   )
                                 ])),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: const Text(
+                              'Suscripciones a nuevos cursos',
+                              style: TextStyle(fontSize: 16, height: 1.4),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          FlutterSwitch(
+                            activeColor: Colors.green,
+                            width: 90.0,
+                            height: 55.0,
+                            valueFontSize: 25.0,
+                            toggleSize: 45.0,
+                            value: Preferences.susbVal,
+                            borderRadius: 30.0,
+                            padding: 8.0,
+                            showOnOff: true,
+                            activeIcon: Icon(
+                              Icons.notifications_active,
+                              color: Colors.black,
+                            ),
+                            inactiveIcon: Icon(
+                              Icons.notifications_none,
+                              color: Colors.red,
+                            ),
+                            onToggle: (val) {
+                              setState(() {
+                                Preferences.susbVal = val;
+                                if (Preferences.susbVal == true) {
+                                  FirebaseMessaging.instance
+                                      .subscribeToTopic('Cursos')
+                                      .then((value) {
+                                    final snackBar = SnackBar(
+                                        content: Text('Te has suscrito al tema',
+                                            style: TextStyle(
+                                                fontFamily: 'Mukta',
+                                                fontWeight: FontWeight.bold)));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  });
+                                } else if (Preferences.susbVal == false) {
+                                  FirebaseMessaging.instance
+                                      .unsubscribeFromTopic('Cursos');
+
+                                  final snackBar = SnackBar(
+                                      content: Text(
+                                          'Te has dessuscrito al tema',
+                                          style: TextStyle(
+                                              fontFamily: 'Mukta',
+                                              fontWeight: FontWeight.bold)));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                           Center(
                             child: SizedBox(

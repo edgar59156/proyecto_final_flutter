@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_final/models/arguments_model.dart';
 import 'package:proyecto_final/screens/courses_screen.dart';
@@ -35,6 +36,24 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.pushNamed(context, '/notification');
               },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.rss_feed,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                FirebaseMessaging.instance.subscribeToTopic('Cursos').then(
+                  (value) {
+                    final snackBar = SnackBar(
+                        content: Text('Te has suscrito al tema',
+                            style: TextStyle(
+                                fontFamily: 'Mukta',
+                                fontWeight: FontWeight.bold)));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                );
+              },
             )
           ],
         ),
@@ -50,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.lightBlue,
           buttonBackgroundColor: Colors.grey.shade500,
           backgroundColor: Colors.transparent,
-          
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 600),
           onTap: (index) {
